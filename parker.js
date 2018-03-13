@@ -382,6 +382,7 @@ router.post("/autenticacion",function(req,res){
     collection.aggregate([
         { $match : { "email" : email_login, "contrasena" : password_login } }
     ]).toArray(function(err, result){  
+		console.log(result);
         if(err){
             var res_err      = {};
             res_err.status   = "error";
@@ -404,7 +405,7 @@ router.post("/autenticacion",function(req,res){
             }else{
                 var res_data      = {};
                 res_data.status   = "success";
-                res_data.message  = "Bienvenido a WUVI. ¡Disfruta tu comida!";
+                res_data.message  = "Bienvenido.";
                 res_data.data     = result[0];
                 res.send(res_data);
             }
