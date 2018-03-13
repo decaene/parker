@@ -19,7 +19,6 @@ var nodemailer  	=   require('nodemailer');
 var smtpTransport 	= 	require('nodemailer-smtp-transport');
 var handlebars 	  	= 	require('handlebars');
 var fs 				= 	require('fs');
-var gps 			= 	require("gps-tracking");
 
 app.use(bodyParser({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
@@ -39,7 +38,7 @@ var io = require('socket.io')(server);
 
 	var datb;  
 
-	MongoClient.connect('mongodb://127.0.0.1:27017/walter_gps', function(err, db) {
+	MongoClient.connect('mongodb://127.0.0.1:27017/parker', function(err, db) {
 	    if(err) throw err;
 	    datb = db;
 	});
@@ -76,7 +75,7 @@ app.use(function (req, res, next) {
 
 // Set socket.io listeners.
 io.on('connection', (socket) => {
-  	console.log('Usuario esta viendo Walter GPS');
+  	console.log('Usuario esta viendo ParkerAPP');
 
   	socket.on('join', function(data) { //Listen to any join event from connected users
   		socket.user_id = data._id;
@@ -108,37 +107,6 @@ io.on('connection', (socket) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
 
-var options = {
-    'debug'                 : true,
-    'port'                  : 8090,
-    'device_adapter'        : "TK103"
-}
- 
-var server = gps.server(options,function(device,connection){
- 
-    device.on("login_request",function(device_id,msg_parts){
- 
-        // Some devices sends a login request before transmitting their position
-        // Do some stuff before authenticate the device... 
-        
-        // Accept the login request. You can set false to reject the device.
-		console.log(device_id);
-		console.log(msg_parts);
-        this.login_authorized(true); 
- 
-    });
- 
- 
-    //PING -> When the gps sends their position  
-    device.on("ping",function(data){
- 
-        //After the ping is received, but before the data is saved
-        console.log(data);
-        return data;
- 
-    });
- 
-});
 
 router.get("/",function(req,res){
     res.json({"error" : false,"message" : "Hello World11"});
