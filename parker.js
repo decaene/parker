@@ -488,7 +488,7 @@ router.post("/nuevo_usuario_empresa",function(req,res){
 
 						collection.update(
 							{ '_id' : ObjectId(result_usuario_res.insertedIds[0]) }, 
-							{ $set: { 'foto' : 'http://165.227.30.166:3009/usuario/'+result_usuario_res.insertedIds[0]+'_foto.png' } }, 
+							{ $set: { 'foto' : 'http://165.227.30.166:3017/usuario/'+result_usuario_res.insertedIds[0]+'_foto.png' } }, 
 							function(err, result2){  
 								if(err){
 									var res_err      = {};
@@ -806,7 +806,7 @@ router.post("/actualizar_empresa",function(req,res){
 
 					collection.update(
 						{ '_id' : empresa_id }, 
-						{ $set: { 'foto' : 'http://165.227.30.166:3009/usuario/'+req.body.empresa._id+'_foto.png' } }, 
+						{ $set: { 'foto' : 'http://165.227.30.166:3017/usuario/'+req.body.empresa._id+'_foto.png' } }, 
 						function(err, result2){  
 							if(err){
 								var res_err      = {};
@@ -945,7 +945,7 @@ router.post("/actualizar_usuario",function(req,res){
 
 					collection.update(
 						{ '_id' : usuario_id }, 
-						{ $set: { 'foto' : 'http://165.227.30.166:3009/usuario/'+req.body.usuario._id+'_foto.png' } }, 
+						{ $set: { 'foto' : 'http://165.227.30.166:3017/usuario/'+req.body.usuario._id+'_foto.png' } }, 
 						function(err, result2){  
 							if(err){
 								var res_err      = {};
@@ -1101,7 +1101,7 @@ router.post("/nueva_empresa",function(req,res){
 
             collection.update(
                 { '_id' : ObjectId(result.insertedIds[0]) }, 
-                { $set: { 'foto' : 'http://165.227.30.166:3009/empresa/'+result.insertedIds[0]+'_foto.png' } }, 
+                { $set: { 'foto' : 'http://165.227.30.166:3017/empresa/'+result.insertedIds[0]+'_foto.png' } }, 
                 function(err, result2){  
                     if(err){
                         var res_err      = {};
