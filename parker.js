@@ -799,6 +799,59 @@ router.post("/actualizar_status_usuario",function(req,res){
 	});
 });
 
+router.post("/actualizar_status_despacho",function(req,res){
+    var collection	=  datb.collection('Despacho');
+    var despacho_id	=  ObjectId(req.body.despacho._id);
+    collection.update(
+		{ '_id' : despacho_id }, 
+        { $set: { 'status' : req.body.despacho.status } }, 
+		function(err, result){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+			else{
+				var res_err      = {};
+				res_err.status   = "success";
+				res_err.message  = req.body.despacho.status === 1 ? "Activaste el despacho" : "Desactivaste el despacho";
+				res_err.result	 = result;
+				res.send(res_err);
+			}
+	});
+});
+
+router.post("/actualizar_despacho",function(req,res){
+		var collection					=  datb.collection('Despacho');
+		var despacho_id	                =  ObjectId(req.body.despacho._id);
+		req.body.despacho.usuario_alta 	=  ObjectId(req.body.despacho.usuario_alta);
+		req.body.despacho.ciudad_id		=  ObjectId(req.body.despacho.ciudad._id);
+		delete req.body.despacho.ciudad;
+		collection.update(
+					{ '_id' : despacho_id }, 
+					{ $set: { 	"codigo" : req.body.despacho.codigo,
+								"nombre" : req.body.despacho.nombre, 
+								"comision" : req.body.despacho.comision,
+								"ciudad_id" : req.body.despacho.ciudad_id } }, 
+					function(err, result2){  
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}else{	
+				
+							var result_return      = {};
+							result_return.status   = "success";
+							result_return.message  = "Despacho actualizado :)";
+							res.send(result_return);
+						}
+		});
+});
+
 router.post("/actualizar_empresa",function(req,res){
 		var collection					=  datb.collection('Empresa');
 		var empresa_id	                =  ObjectId(req.body.empresa._id);
@@ -1098,6 +1151,28 @@ router.post("/eliminar_usuario",function(req,res){
     });
 });
 
+router.post("/eliminar_despacho",function(req,res){
+    var collection	=  datb.collection('Despacho');
+    var despacho_id	=  ObjectId(req.body.despacho._id);
+    collection.deleteOne(
+        { '_id' : despacho_id },
+        function(err, result){  
+            if(err){
+                var res_err      = {};
+                res_err.status   = "error";
+                res_err.error    = err;
+                res_err.message  = err;
+                res.send(res_err);
+            }
+            else{
+                var res_data    = {};
+                res_data.status  = "success";
+                res_data.message = "Despacho eliminado :)";
+                res.send(res_data);
+            }
+    });
+});
+
 router.post("/nueva_empresa",function(req,res){
     var collection					=  datb.collection('Empresa');
     var foto						=  req.body.empresa.foto;
@@ -1195,6 +1270,27 @@ router.post("/nuevo_vehiculo",function(req,res){
         else{
             result.status  = "success";
 			result.message = "Vehículo agregado :)";
+			res.send(result);
+        }
+    });
+});
+
+router.post("/nuevo_despacho",function(req,res){
+    var collection					=  datb.collection('Despacho');
+	req.body.despacho.usuario_alta 	=  ObjectId(req.body.despacho.usuario_alta);
+	req.body.despacho.ciudad_id		=  ObjectId(req.body.despacho.ciudad._id);
+	delete req.body.despacho.ciudad;
+    collection.insert(req.body.despacho, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            result.status  = "success";
+			result.message = "Despacho agregado :)";
 			res.send(result);
         }
     });
