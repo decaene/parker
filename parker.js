@@ -328,6 +328,27 @@ router.post("/get_vehiculos_empresa",function(req,res){
     });
 });
 
+router.post("/get_despachos",function(req,res){
+    var collection    =  datb.collection('Despacho');
+    collection.aggregate([
+		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Despachos";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_trackers_empresas",function(req,res){
     var collection    =  datb.collection('Tracker');
     collection.aggregate([
