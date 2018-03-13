@@ -269,7 +269,6 @@ router.post("/get_usuarios",function(req,res){
 router.post("/get_usuarios_empresa",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "empresa_id" : ObjectId(req.body.empresa._id) } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -280,7 +279,7 @@ router.post("/get_usuarios_empresa",function(req,res){
         }else{
             var res_data      = {};
             res_data.status   = "success";
-            res_data.message  = "Usuarios empresa";
+            res_data.message  = "Usuarios";
             res_data.data     = result;
             res.send(res_data);
         }
@@ -458,7 +457,6 @@ router.post("/nuevo_usuario_empresa",function(req,res){
     req.body.data.tipo_id           = new ObjectId(req.body.data.tipo._id);
 	var foto						=  req.body.data.foto;
 	req.body.data.foto 				=  "";
-	req.body.data.empresa_id		=  ObjectId(req.body.data.empresa_id);
 
     collection.find( { "email" : email_register } ).toArray(function(err, result){  
         if(err){
