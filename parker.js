@@ -744,7 +744,7 @@ router.post("/update_foto_usuario",function(req,res){
 	
     collection.update(
 		{ '_id' : user_id }, 
-        { $set: { 'foto' :  'usuario/'+req.body.data._id+'_foto.png' } }, 
+        { $set: { 'foto' :  'http://165.227.30.166:3017/usuario/'+req.body.data._id+'_foto.png' } },  
 		function(err, result){  
 			if(err){
 				var res_err      = {};
