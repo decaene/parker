@@ -672,6 +672,149 @@ router.post("/nuevo_usuario_empresa",function(req,res){
     });
 });
 
+router.post("/actualizar_usuario",function(req,res){
+    var collection                  = datb.collection('Usuario');
+    var email_register              = req.body.data.email;
+	var tipo_usuario				= req.body.data.tipo_usuario._id;
+    req.body.data.tipo_usuario_id   = new ObjectId(req.body.data.tipo_usuario._id);
+	req.body.data.usuario_alta		= new ObjectId(req.body.data.usuario_alta);
+	var foto						=  req.body.data.foto;
+	req.body.data.foto 				=  "";
+	var usuario_id 					= new ObjectId(req.body.data._id);
+	// delete req.body.despacho.ciudad;
+	switch(tipo_usuario){
+		case '5aa7ac37dfe05cac9a071a59':
+			console.log("Despacho - Nuevo Usuario");
+			req.body.data.banco_id	= new ObjectId(req.body.data.banco._id);
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
+		break;
+		case '5aa824248b44e9f4307f1994':
+			console.log("Empresa - Nuevo Usuario");
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
+		break;
+		case '5aa824b78b44e9f4307f1995':
+			console.log("Empleado - Nuevo Usuario");
+			var tipo_empleado_id = req.body.data.tipo_empleado._id;
+			req.body.data.tipo_empleado_id	= new ObjectId(req.body.data.tipo_empleado._id);
+			if(tipo_empleado_id === "5aa832488b44e9f4307f199a"){
+				req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
+			}
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
+		break;
+		case '5aa851a78b44e9f4307f19a0':
+			console.log("Cliente - Nuevo Usuario");
+			req.body.data.ciudad_id	= new ObjectId(req.body.data.ciudad._id);
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
+		break;
+	}
+
+    collection.find( { "email" : email_register } ).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            if(result.length === 0){				
+				collection.update(
+					{ '_id' : usuario_id }, 
+					{ $set: { 	
+								"tipo_usuario_id" : req.body.data.tipo_usuario_id,
+								"tipo_empleado_id" : req.body.data.tipo_empleado_id, 
+								"nombre" : req.body.data.apellido, 
+								"apellido" : req.body.data.apellido, 
+								"email" : req.body.data.email,
+								"contrasena" : req.body.data.contrasena,
+								"celular" : req.body.data.celular,
+								"razon_social" : req.body.data.razon_social,
+								"direccion" : req.body.data.direccion,
+								"nombre_de_contacto" : req.body.data.nombre_de_contacto, 
+								"comision_despacho_fija" : req.body.data.comision_despacho_fija,
+								"banco_id" : req.body.data.banco_id,
+								"sucursal" : req.body.data.sucursal,
+								"cuenta" : req.body.data.cuenta,
+								"clabe" : req.body.data.clabe,
+								"referencia" : req.body.data.referencia, 
+								"nombre_beneficiario" : req.body.data.nombre_beneficiario,
+								"ciudad_id" : req.body.data.ciudad_id,
+								"sueldo_base" : req.body.data.sueldo_base,
+								"tipo_comision_id" : req.body.data.tipo_comision_id,
+								"f_personalizada_prctg" : req.body.data.f_personalizada_prctg,
+								"v_personalizada_minimo" : req.body.data.v_personalizada_minimo, 
+								"v_personalizada_maximo" : req.body.data.v_personalizada_maximo,
+								"v_personalizada_minimo_prctg" : req.body.data.v_personalizada_minimo_prctg,
+								"v_personalizada_maximo_prctg" : req.body.data.v_personalizada_maximo_prctg,
+								"supervisor_email" : req.body.data.supervisor_email
+							} 
+					}, 
+				function(err, result2){  
+					if(err){
+						var res_err      = {};
+						res_err.status   = "error";
+						res_err.error    = err;
+						res_err.message  = err;
+						res.send(res_err);
+					}
+					else{			
+						
+						if(foto.includes("data")){
+							var data = foto.replace(/^data:image\/\w+;base64,/, "");
+							var buf = new Buffer(data, 'base64');
+							fs.writeFile('usuario/'+req.body.data._id+'_foto.png', buf);
+
+							collection.update(
+								{ '_id' : usuario_id }, 
+								{ $set: { 'foto' : 'http://165.227.30.166:3017/usuario/'+req.body.data._id+'_foto.png' } }, 
+								function(err, result2){  
+									if(err){
+										var res_err      = {};
+										res_err.status   = "error";
+										res_err.error    = err;
+										res_err.message  = err;
+										res.send(res_err);
+									}
+									else{
+										result2.status  = "success";
+										result2.message = "Usuario modificado :)";
+										res.send(result2);
+									}
+							});
+						}else{
+							var result_return      = {};
+							result_return.status   = "success";
+							result_return.message  = "Usuario modificado :)";
+							res.send(result_return);
+						}
+					}
+				});
+            }else{
+                var res_err      = {};
+                res_err.status   = "info";
+                res_err.message  = "Este correo electrónico ya fue registrado anteriormente.";
+                res.send(res_err);
+            }
+        }
+    });
+});
+
 router.post("/recuperar_contrasena",function(req,res){
 	var collection	     = datb.collection('Usuario');
 	var nueva_contrasena = random_password();
@@ -1119,62 +1262,6 @@ router.post("/actualizar_ruta",function(req,res){
 				result_return.status   = "success";
 				result_return.message  = "Ruta actualizada :)";
 				res.send(result_return);
-			}
-		});
-});
-
-router.post("/actualizar_usuario",function(req,res){
-		var collection					=  datb.collection('Usuario');
-		var usuario_id	                =  ObjectId(req.body.usuario._id);
-		var foto     					=  req.body.usuario.foto;
-		req.body.usuario.foto 			=  "";
-		req.body.usuario.tipo_id		= new ObjectId(req.body.usuario.tipo_id);
-		collection.update(
-					{ '_id' : usuario_id }, 
-					{ $set: { 	"nombre" : req.body.usuario.nombre,
-								"apellido" : req.body.usuario.apellido, 
-								"email" : req.body.usuario.email,
-								"contrasena" : req.body.usuario.contrasena,
-								"tipo" : req.body.usuario.tipo,
-								"tipo_id" : req.body.usuario.tipo_id, } }, 
-					function(err, result2){  
-						if(err){
-							var res_err      = {};
-							res_err.status   = "error";
-							res_err.error    = err;
-							res_err.message  = err;
-							res.send(res_err);
-						}
-			else{			
-				
-				if(foto.includes("data")){
-					var data = foto.replace(/^data:image\/\w+;base64,/, "");
-					var buf = new Buffer(data, 'base64');
-					fs.writeFile('usuario/'+req.body.usuario._id+'_foto.png', buf);
-
-					collection.update(
-						{ '_id' : usuario_id }, 
-						{ $set: { 'foto' : 'http://165.227.30.166:3017/usuario/'+req.body.usuario._id+'_foto.png' } }, 
-						function(err, result2){  
-							if(err){
-								var res_err      = {};
-								res_err.status   = "error";
-								res_err.error    = err;
-								res_err.message  = err;
-								res.send(res_err);
-							}
-							else{
-								result2.status  = "success";
-								result2.message = "Usuario modificado :)";
-								res.send(result2);
-							}
-					});
-				}else{
-					var result_return      = {};
-					result_return.status   = "success";
-					result_return.message  = "Registro modificado :)";
-					res.send(result_return);
-				}
 			}
 		});
 });
