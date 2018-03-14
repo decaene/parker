@@ -739,7 +739,7 @@ router.post("/actualizar_usuario",function(req,res){
 					{ $set: { 	
 								"tipo_usuario_id" : req.body.data.tipo_usuario_id,
 								"tipo_empleado_id" : req.body.data.tipo_empleado_id, 
-								"nombre" : req.body.data.apellido, 
+								"nombre" : req.body.data.nombre, 
 								"apellido" : req.body.data.apellido, 
 								"email" : req.body.data.email,
 								"contrasena" : req.body.data.contrasena,
