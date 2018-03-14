@@ -566,24 +566,41 @@ router.post("/nuevo_usuario_empresa",function(req,res){
 		case '5aa7ac37dfe05cac9a071a59':
 			console.log("Despacho - Nuevo Usuario");
 			req.body.data.banco_id	= new ObjectId(req.body.data.banco._id);
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
 		break;
 		case '5aa824248b44e9f4307f1994':
 			console.log("Empresa - Nuevo Usuario");
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
 		break;
 		case '5aa824b78b44e9f4307f1995':
 			console.log("Empleado - Nuevo Usuario");
 			var tipo_empleado_id = req.body.data.tipo_empleado._id;
 			req.body.data.tipo_empleado_id	= new ObjectId(req.body.data.tipo_empleado._id);
-			delete req.body.data.tipo_empleado;
 			if(tipo_empleado_id === "5aa832488b44e9f4307f199a"){
 				req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
-				delete req.body.data.tipo_comision;
 			}
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
 		break;
 		case '5aa851a78b44e9f4307f19a0':
 			console.log("Cliente - Nuevo Usuario");
 			req.body.data.ciudad_id	= new ObjectId(req.body.data.ciudad._id);
+			delete req.body.data.banco;
+			delete req.body.data.tipo_empleado;
+			delete req.body.data.tipo_comision;
 			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
 		break;
 	}
 
