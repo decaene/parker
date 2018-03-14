@@ -724,7 +724,7 @@ router.post("/actualizar_usuario",function(req,res){
 		break;
 	}
 
-    collection.find( { "email" : email_register } ).toArray(function(err, result){  
+    collection.find( { "email" : email_register, "_id": { $not: usuario_id } } ).toArray(function(err, result){  
         if(err){
             var res_err      = {};
             res_err.status   = "error";
