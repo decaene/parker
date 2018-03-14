@@ -555,9 +555,37 @@ router.post("/nuevo_usuario",function(req,res){
 router.post("/nuevo_usuario_empresa",function(req,res){
     var collection                  = datb.collection('Usuario');
     var email_register              = req.body.data.email;
-    req.body.data.tipo_id           = new ObjectId(req.body.data.tipo._id);
+	var tipo_usuario				= req.body.data.tipo_usuario._id;
+    req.body.data.tipo_usuario_id   = new ObjectId(req.body.data.tipo_usuario._id);
+	req.body.data.usuario_alta		= new ObjectId(req.body.data.usuario_alta);
 	var foto						=  req.body.data.foto;
 	req.body.data.foto 				=  "";
+	
+	// delete req.body.despacho.ciudad;
+	switch(tipo_usuario){
+		case '5aa7ac37dfe05cac9a071a59':
+			console.log("Despacho - Nuevo Usuario");
+			req.body.data.banco_id	= new ObjectId(req.body.data.banco._id);
+		break;
+		case '5aa824248b44e9f4307f1994':
+			console.log("Empresa - Nuevo Usuario");
+		break;
+		case '5aa824b78b44e9f4307f1995':
+			console.log("Empleado - Nuevo Usuario");
+			var tipo_empleado_id = req.body.data.tipo_empleado._id;
+			req.body.data.tipo_empleado_id	= new ObjectId(req.body.data.tipo_empleado._id);
+			delete req.body.data.tipo_empleado;
+			if(tipo_empleado_id === "5aa832488b44e9f4307f199a"){
+				req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
+				delete req.body.data.tipo_comision;
+			}
+		break;
+		case '5aa851a78b44e9f4307f19a0':
+			console.log("Cliente - Nuevo Usuario");
+			req.body.data.ciudad_id	= new ObjectId(req.body.data.ciudad._id);
+			delete req.body.data.ciudad;
+		break;
+	}
 
     collection.find( { "email" : email_register } ).toArray(function(err, result){  
         if(err){
@@ -580,29 +608,36 @@ router.post("/nuevo_usuario_empresa",function(req,res){
                     else{
 						var result_usuario_res = result_usuario;
 						
-						console.log(result_usuario_res.insertedIds[0]);
-						var data = foto.replace(/^data:image\/\w+;base64,/, "");
-						var buf = new Buffer(data, 'base64');
-						fs.writeFile('usuario/'+result_usuario_res.insertedIds[0]+'_foto.png', buf);
+						if(foto.includes("data")){
+							console.log(result_usuario_res.insertedIds[0]);
+							var data = foto.replace(/^data:image\/\w+;base64,/, "");
+							var buf = new Buffer(data, 'base64');
+							fs.writeFile('usuario/'+result_usuario_res.insertedIds[0]+'_foto.png', buf);
 
-						collection.update(
-							{ '_id' : ObjectId(result_usuario_res.insertedIds[0]) }, 
-							{ $set: { 'foto' : 'http://165.227.30.166:3017/usuario/'+result_usuario_res.insertedIds[0]+'_foto.png' } }, 
-							function(err, result2){  
-								if(err){
-									var res_err      = {};
-									res_err.status   = "error"; 
-									res_err.error    = err;
-									res_err.message  = err;
-									res.send(res_err);
-								}
-								else{
-									result_usuario_res.status = "success";
-									result_usuario_res.message = "Nuevo usuario creado :)";
-									res.send(result_usuario_res);
-								}
-						});
-						// res.send(req.body);
+							collection.update(
+								{ '_id' : ObjectId(result_usuario_res.insertedIds[0]) }, 
+								{ $set: { 'foto' : 'http://165.227.30.166:3017/usuario/'+result_usuario_res.insertedIds[0]+'_foto.png' } }, 
+								function(err, result2){  
+									if(err){
+										var res_err      = {};
+										res_err.status   = "error"; 
+										res_err.error    = err;
+										res_err.message  = err;
+										res.send(res_err);
+									}
+									else{
+										result_usuario_res.status = "success";
+										result_usuario_res.message = "Nuevo usuario creado :)";
+										res.send(result_usuario_res);
+									}
+							});
+							// res.send(req.body);
+						}else{
+							var result_sin_foto      	= {};
+							result_sin_foto.status 		= "success";
+							result_sin_foto.message 	= "Nuevo usuario creado :)";
+							res.send(result_sin_foto);
+						}
                     }
                 });
             }else{
