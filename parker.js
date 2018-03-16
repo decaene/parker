@@ -1138,9 +1138,14 @@ router.post("/actualizar_empresa",function(req,res){
 		var empresa_id	                =  ObjectId(req.body.empresa._id);
 		var foto     					=  req.body.empresa.foto;
 		req.body.empresa.foto 			=  "";
+		req.body.empresa.ciudad_id		=  ObjectId(req.body.empresa.ciudad._id);
 		collection.update(
 					{ '_id' : empresa_id }, 
-					{ $set: { "privacidad" : req.body.empresa.privacidad , "nombre" : req.body.empresa.nombre } }, 
+					{ $set: { 	"razon_social" : req.body.empresa.razon_social,
+								"rfc" : req.body.empresa.rfc, 
+								"direccion" : req.body.empresa.direccion,
+								"ciudad_id" : req.body.empresa.ciudad_id,
+								"email" : req.body.empresa.email	} }, 
 					function(err, result2){  
 						if(err){
 							var res_err      = {};
@@ -1403,6 +1408,8 @@ router.post("/nueva_empresa",function(req,res){
     var foto						=  req.body.empresa.foto;
 	req.body.empresa.foto 			=  "";
 	req.body.empresa.usuario_id		=  ObjectId(req.body.empresa.usuario_id);
+	req.body.empresa.ciudad_id		=  ObjectId(req.body.empresa.ciudad._id);
+	delete req.body.empresa.ciudad;
     collection.insert(req.body.empresa, function(err, result) {
         if(err){
             var res_err      = {};
