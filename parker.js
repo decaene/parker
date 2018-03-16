@@ -225,7 +225,7 @@ router.post("/get_rutas",function(req,res){
 router.post("/get_empresas",function(req,res){
     var collection    =  datb.collection('Empresa');
     collection.aggregate([
-		{ $lookup: { from: "Usuario", localField: "_id", foreignField: "empresa_id", as: "usuarios" } }
+		{ $lookup: { from: "Usuario", localField: "_id", foreignField: "empresa_id", as: "usuarios" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } }
     ]).toArray(function(err, result){  
         if(err){
