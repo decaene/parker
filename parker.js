@@ -267,6 +267,7 @@ router.post("/get_usuarios",function(req,res){
 router.post("/get_usuarios_empresa",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
+		{ $match:  { "empresa_id" : ObjectId(req.body.empresa._id) } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
@@ -577,6 +578,7 @@ router.post("/nuevo_usuario_empresa",function(req,res){
 		break;
 		case '5aa824248b44e9f4307f1994':
 			console.log("Empresa - Nuevo Usuario");
+			req.body.data.empresa_id	= new ObjectId(req.body.data.empresa_id);
 			delete req.body.data.banco;
 			delete req.body.data.tipo_empleado;
 			delete req.body.data.tipo_comision;
