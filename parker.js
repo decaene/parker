@@ -247,6 +247,13 @@ router.post("/get_empresas",function(req,res){
 router.post("/get_ventas",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
+		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
+		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
+		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
