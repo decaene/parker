@@ -431,6 +431,27 @@ router.post("/get_despachos",function(req,res){
     });
 });
 
+router.post("/get_almacenes",function(req,res){
+    var collection    =  datb.collection('Almacen');
+    collection.aggregate([
+		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Despachos";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_trackers_empresas",function(req,res){
     var collection    =  datb.collection('Tracker');
     collection.aggregate([
@@ -1064,6 +1085,30 @@ router.post("/actualizar_status_empresa",function(req,res){
 	});
 });
 
+router.post("/actualizar_status_almacen",function(req,res){
+    var collection	=  datb.collection('Almacen');
+    var almacen_id	=  ObjectId(req.body.almacen._id);
+    collection.update(
+		{ '_id' : almacen_id }, 
+        { $set: { 'status' : req.body.almacen.status } }, 
+		function(err, result){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+			else{
+				var res_err      = {};
+				res_err.status   = "success";
+				res_err.message  = req.body.almacen.status === 1 ? "Activaste el almacén" : "Desactivaste el almacén";
+				res_err.result	 = result;
+				res.send(res_err);
+			}
+	});
+});
+
 router.post("/actualizar_status_ruta",function(req,res){
     var collection	=  datb.collection('Ruta');
     var ruta_id	=  ObjectId(req.body.ruta._id);
@@ -1208,6 +1253,35 @@ router.post("/actualizar_despacho",function(req,res){
 							var result_return      = {};
 							result_return.status   = "success";
 							result_return.message  = "Despacho actualizado :)";
+							res.send(result_return);
+						}
+		});
+});
+
+router.post("/actualizar_almacen",function(req,res){
+		var collection					=  datb.collection('Almacen');
+		var almacen_id	                =  ObjectId(req.body.almacen._id);
+		req.body.almacen.ciudad_id		=  ObjectId(req.body.almacen.ciudad._id);
+		delete req.body.almacen.ciudad;
+		collection.update(
+					{ '_id' : almacen_id }, 
+					{ $set: { 	"balance_real" : req.body.almacen.balance_real,
+								"balance_teorico" : req.body.almacen.balance_teorico, 
+								"discrepancia_balance" : req.body.almacen.discrepancia_balance,
+								"nombre" : req.body.almacen.nombre,
+								"ciudad_id" : req.body.almacen.ciudad_id } }, 
+					function(err, result2){  
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}else{	
+				
+							var result_return      = {};
+							result_return.status   = "success";
+							result_return.message  = "Almacén actualizado :)";
 							res.send(result_return);
 						}
 		});
@@ -1603,6 +1677,27 @@ router.post("/nuevo_despacho",function(req,res){
         else{
             result.status  = "success";
 			result.message = "Despacho agregado :)";
+			res.send(result);
+        }
+    });
+});
+
+router.post("/nuevo_almacen",function(req,res){
+    var collection					=  datb.collection('Almacen');
+	req.body.almacen.usuario_alta 	=  ObjectId(req.body.almacen.usuario_alta);
+	req.body.almacen.ciudad_id		=  ObjectId(req.body.almacen.ciudad._id);
+	delete req.body.almacen.ciudad;
+    collection.insert(req.body.almacen, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            result.status  = "success";
+			result.message = "Almacén agregado :)";
 			res.send(result);
         }
     });
