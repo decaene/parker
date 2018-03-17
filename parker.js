@@ -596,6 +596,7 @@ router.post("/nuevo_usuario_empresa",function(req,res){
 		case '5aa7ac37dfe05cac9a071a59':
 			console.log("Despacho - Nuevo Usuario");
 			req.body.data.banco_id	= new ObjectId(req.body.data.banco._id);
+			req.body.data.despacho_id	= new ObjectId(req.body.data.despacho_id);
 			delete req.body.data.banco;
 			delete req.body.data.tipo_empleado;
 			delete req.body.data.tipo_comision;
