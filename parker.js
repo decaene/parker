@@ -368,6 +368,32 @@ router.post("/get_usuarios_clientes",function(req,res){
     });
 });
 
+router.post("/get_usuarios_almacen",function(req,res){
+    var collection    =  datb.collection('Usuario');
+    collection.aggregate([
+		{ $match:  { "almacen_id" : ObjectId(req.body.almacen._id) } },
+		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
+		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
+		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
+		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
+		{ $lookup: { from: "Tipo_Comision", localField: "tipo_comision_id", foreignField: "_id", as: "tipo_comision" } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Usuarios";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_ciudades",function(req,res){
     var collection    =  datb.collection('Ciudad');
     collection.aggregate([
@@ -1055,6 +1081,30 @@ router.post("/update_perfil_usuario",function(req,res){
 				var res_err      = {};
 				res_err.status   = "success";
 				res_err.message  = "Actualizaste tu perfil";
+				res_err.result	 = result;
+				res.send(res_err);
+			}
+	});
+});
+
+router.post("/eliminar_usuario_de_almacen",function(req,res){
+    var collection	=  datb.collection('Usuario');
+    var usuario_id	=  ObjectId(req.body.usuario._id);
+    collection.update(
+		{ '_id' : usuario_id }, 
+        { $set: { 'almacen_id' : null } }, 
+		function(err, result){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+			else{
+				var res_err      = {};
+				res_err.status   = "success";
+				res_err.message  = "Eliminaste el usuario del almacén";
 				res_err.result	 = result;
 				res.send(res_err);
 			}
