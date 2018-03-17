@@ -1872,5 +1872,35 @@ router.post("/nuevo_almacen",function(req,res){
     });
 });
 
+router.post("/nueva_venta",function(req,res){
+    var collection						=  datb.collection('Venta');
+	req.body.venta.vendedor_id 			=  ObjectId(req.body.venta.vendedor._id);
+	req.body.venta.cliente_id 			=  ObjectId(req.body.venta.cliente._id);
+	req.body.venta.despacho_id 			=  ObjectId(req.body.venta.despacho._id);
+	req.body.venta.despacho_usuario_id 	=  ObjectId(req.body.venta.despacho_usuario._id);
+	req.body.venta.almacen_id 			=  ObjectId(req.body.venta.almacen._id);
+	
+	delete req.body.venta.vendedor;
+	delete req.body.venta.cliente;
+	delete req.body.venta.despacho;
+	delete req.body.venta.despacho_usuario;
+	delete req.body.venta.almacen;
+	
+    collection.insert(req.body.venta, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            result.status  = "success";
+			result.message = "Venta agregada :)";
+			res.send(result);
+        }
+    });
+});
+
 
 app.use('/',router);
