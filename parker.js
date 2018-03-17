@@ -372,6 +372,7 @@ router.post("/get_usuarios_despacho_todos",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
 		{ $match:  { "tipo_usuario_id" : ObjectId("5aa7ac37dfe05cac9a071a59") } },
+		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
