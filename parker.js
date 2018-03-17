@@ -769,6 +769,7 @@ router.post("/actualizar_usuario",function(req,res){
 		case '5aa851a78b44e9f4307f19a0':
 			console.log("Cliente - Nuevo Usuario");
 			req.body.data.ciudad_id	= new ObjectId(req.body.data.ciudad._id);
+			req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
 			delete req.body.data.banco;
 			delete req.body.data.tipo_empleado;
 			delete req.body.data.tipo_comision;
