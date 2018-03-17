@@ -1873,12 +1873,15 @@ router.post("/nuevo_almacen",function(req,res){
 });
 
 router.post("/nueva_venta",function(req,res){
+	
     var collection						=  datb.collection('Venta');
 	req.body.venta.vendedor_id 			=  ObjectId(req.body.venta.vendedor._id);
 	req.body.venta.cliente_id 			=  ObjectId(req.body.venta.cliente._id);
 	req.body.venta.despacho_id 			=  ObjectId(req.body.venta.despacho._id);
 	req.body.venta.despacho_usuario_id 	=  ObjectId(req.body.venta.despacho_usuario._id);
 	req.body.venta.almacen_id 			=  ObjectId(req.body.venta.almacen._id);
+	req.body.venta.usuario_id 			=  ObjectId(req.body.venta.usuario_id);
+	req.body.venta.tipo_venta_id		=  ObjectId(req.body.venta.tipo_venta_id);
 	
 	delete req.body.venta.vendedor;
 	delete req.body.venta.cliente;
