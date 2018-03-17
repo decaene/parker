@@ -2033,12 +2033,12 @@ router.post("/nueva_venta",function(req,res){
 	
 	// DATOS DE CORREO
 	var correo_cliente 	= req.body.venta.cliente.email;
-	var usuario 		= req.body.venta.cliente.nombre + " " + req.body.cliente.apellido;
+	var usuario 		= req.body.venta.cliente.nombre + " " + req.body.venta.cliente.apellido;
 	var mensaje 		= "Nuevo folio registrado";
 	var solicitud 		= "Captura la información de pago para este folio y continuar con el proceso.";
 	
 	var correo_vendedor	= req.body.venta.vendedor.email;
-	var usuario_v		= req.body.venta.vendedor.nombre + " " + req.body.vendedor.apellido;
+	var usuario_v		= req.body.venta.vendedor.nombre + " " + req.body.venta.vendedor.apellido;
 	var mensaje_v 		= "Nueva venta registrada";
 	var solicitud_v 	= "Envíamos un correo al cliente para la resolución del pago de este folio.";
 	
