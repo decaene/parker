@@ -2034,8 +2034,13 @@ router.post("/nueva_venta",function(req,res){
 	// DATOS DE CORREO
 	var correo_cliente 	= req.body.cliente.email;
 	var usuario 		= req.body.cliente.nombre + " " + req.body.cliente.apellido;
-	var mensaje 		= "Nueva venta asignada";
+	var mensaje 		= "Nuevo folio registrado";
 	var solicitud 		= "Captura la información de pago para este folio y continuar con el proceso.";
+	
+	var correo_vendedor	= req.body.cliente.email;
+	var usuario_v		= req.body.cliente.nombre + " " + req.body.cliente.apellido;
+	var mensaje_v 		= "Nueva venta registrada";
+	var solicitud_v 	= "Envíamos un correo al cliente para la resolución del pago de este folio.";
 	
 	delete req.body.venta.vendedor;
 	delete req.body.venta.cliente;
@@ -2054,6 +2059,7 @@ router.post("/nueva_venta",function(req,res){
         else{
 			
 			enviar_correo(correo_cliente, usuario, mensaje, solicitud);
+			enviar_correo(correo_vendedor, usuario_v, mensaje_v, solicitud_v);
 			
             result.status  = "success";
 			result.message = "Venta agregada :)";
