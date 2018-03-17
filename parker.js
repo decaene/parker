@@ -108,6 +108,63 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
 
 
+function enviar_correo(correo, usuario, mensaje, solicitud){
+	
+	let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: 'alanbarreraff@gmail.com', // generated ethereal user
+            pass: 'pbo031117'  // generated ethereal password
+        }
+    });	
+	readHTMLFile('plantillas_correo/correo_base.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var replacements = {
+			 user_p : usuario,
+			 mensaje : mensaje,
+			 solicitud : solicitud
+		};
+		var htmlToSend = template(replacements);
+		var mailOptions = {
+			from: 'alanbarreraff@gmail.com', // sender address
+			to: 'alanbarreraf@hotmail.com,'+correo, // list of receivers
+			subject: 'Parker - Notificación', // Subject line
+			text: 'Parker - Notificación', // Subject line
+			html: htmlToSend // html body
+		 };
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				return console.log(error);
+			}			
+		});
+	});
+}
+
+function nueva_notificacion_reg (notificacion){
+	var collection						=  datb.collection('Notificacion');
+	notificacion.recibe 				=  ObjectId(notificacion.recibe);
+	notificacion.manda 					=  ObjectId(notificacion.manda);
+	notificacion.preset 				=  ObjectId(notificacion.preset);
+	
+	
+    collection.insert(notificacion, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            return res_err;
+        }
+        else{
+            result.status  = "success";
+			result.message = "Notificacion agregada :)";
+			return result;
+        }
+    });
+}
+
 router.get("/",function(req,res){
     res.json({"error" : false,"message" : "Hello World11"});
 });
@@ -1974,6 +2031,12 @@ router.post("/nueva_venta",function(req,res){
 	req.body.venta.usuario_id 			=  ObjectId(req.body.venta.usuario_id);
 	req.body.venta.tipo_venta_id		=  ObjectId(req.body.venta.tipo_venta_id);
 	
+	// DATOS DE CORREO
+	var correo_cliente 	= req.body.cliente.email;
+	var usuario 		= req.body.cliente.nombre + " " + req.body.cliente.apellido;
+	var mensaje 		= "Nueva venta asignada";
+	var solicitud 		= "Captura la información de pago para este folio y continuar con el proceso.";
+	
 	delete req.body.venta.vendedor;
 	delete req.body.venta.cliente;
 	delete req.body.venta.despacho;
@@ -1989,6 +2052,9 @@ router.post("/nueva_venta",function(req,res){
             res.send(res_err);
         }
         else{
+			
+			enviar_correo(correo_cliente, usuario, mensaje, solicitud);
+			
             result.status  = "success";
 			result.message = "Venta agregada :)";
 			res.send(result);

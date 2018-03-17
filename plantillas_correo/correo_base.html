@@ -901,9 +901,13 @@ body{background-color:#f2f2f2}.logo a:hover,.logo a:focus{color:#859bb1 !importa
   <body class="mso">
 <![endif]-->
 <!--[if !mso]><!-->
-  <body class="full-padding full-padding">
+  <body class="full-padding full-padding" style="
+        background: linear-gradient(to right top, rgb(234, 234, 234), rgb(247, 247, 247));
+">
 <!--<![endif]-->
-    <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation"><tbody><tr><td>
+    <table class="wrapper" cellpadding="0" cellspacing="0" role="presentation" style="
+        background: linear-gradient(to right top, rgb(234, 234, 234), rgb(247, 247, 247));
+"><tbody><tr><td>
       <div role="banner">
         <div class="preheader">
           <div class="preheader__inner--inline">
@@ -921,20 +925,28 @@ body{background-color:#f2f2f2}.logo a:hover,.logo a:focus{color:#859bb1 !importa
         <div class="header header--padded--inline" id="emb-email-header-container">
         <!--[if (mso)|(IE)]><table align="center" class="header" cellpadding="0" cellspacing="0" role="presentation"><tr><td style="width: 600px"><![endif]-->
           <div class="logo emb-logo-margin-box" align="center" style="Margin-top:35px;Margin-bottom:25px;">
-            <div align="center" id="emb-email-header" style="font-size:26px !important;line-height:32px !important;" class="logo-center">Taxi A One</div>
+				<img alt="" width="250" style="max-width: 50%;" src="http://zcodiclean.codigeek.com/walter/icon.png">
+            <!-- <div align="center" id="emb-email-header" style="font-weight: bold;color: white;font-size:26px !important;line-height:32px !important;" class="logo-center">Preset</div> -->
           </div>
         <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
         </div>
       </div>
-      <div role="section">
+      <div role="section" style="
+    border-radius: 20px;
+">
 
-      <div class="layout one-col fixed-width layout--inherit-padding--inline">
-        <div class="layout__inner" style="background-color: #ffffff;">
+      <div class="layout one-col fixed-width layout--inherit-padding--inline" style="
+    border-radius: 20px;
+">
+        <div class="layout__inner" style="border-radius: 10px;background-color: #ffffff;box-shadow: 0px 3px 9px 2px #4c4c4c;">
         <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-fixed-width" style="background-color: #ffffff;"><td style="width: 600px" class="w560"><![endif]-->
           <div class="column">
         
-        <div class="image--inline" align="center">
-          <img alt="" width="250" style="max-width:250px" src="https://i1.createsend1.com/ti/j/59/744/61A/eblogo/1ed1d47d52224d58bec5eadf3ffca6f2.png">
+        <div class="image--inline" align="center" style="
+    border-radius: 20px;
+">
+          
+
         </div>
       
             <div class="column__padding--inline">
@@ -943,13 +955,27 @@ body{background-color:#f2f2f2}.logo a:hover,.logo a:focus{color:#859bb1 !importa
         
             <div class="column__padding--inline">
       <div class="text--inline">
-        <h2><span style="color:#250640">Hola {{user_p}},</span></h2><p><span style="color:#250640">Gracias por unirte a Taxi A One.</span></p><p><span style="color:#250640">Entra a nuestra plataforma con los siguientes datos:</span></p><ul><li><span style="color:#250640">Usuario: {{user2_p}}</span></li><li><span style="color:#250640">Contraseña: {{contrasena_p}}</span></li></ul>
+        <h2><span style="color:#250640">Estimado {{user_p}},</span></h2>
+		<p>
+			<span style="padding-bottom: 5px; color: #250640; border-bottom: 1px solid black;">
+				Mensaje del sistema.
+			</span>
+		</p>
+		<p><span style="color:#250640">{{mensaje}}</span></p>
+		<ul><li><span style="color:#250640">{{solicitud}}</span></li></ul>
       </div>
     </div>
         
             <div class="column__padding--inline">
-      <div class="btn btn--flat btn--large" style="text-align:center;">
-        <a cs-button="" href="http://taxiaone.com" fix-pos="" data-vml-width="158" height="48" style="color: #f2f2f2 !important; font-family: sans-serif; border-radius: 4px;" target="_blank">Ir a la plataforma</a>
+    
+	  <div class="btn btn--flat btn--large" style="padding-top: 20px;text-align:center;">
+        
+<img src="http://zcodiclean.codigeek.com/brand/googleplay.png" style="
+    width: 30%;
+"><img src="http://zcodiclean.codigeek.com/brand/appstore.png" style="
+    width: 30%; margin-left: 50px;
+">
+
       </div>
     </div>
         
@@ -959,7 +985,7 @@ body{background-color:#f2f2f2}.logo a:hover,.logo a:focus{color:#859bb1 !importa
         
             <div class="column__padding--inline">
       <div class="text--inline">
-        <p>Estamos a tus órdenes<br><strong>Taxi A One</strong></p>
+        <p>Atentamente.<br><strong>Equipo Parker</strong></p>
       </div>
     </div>
         
@@ -979,7 +1005,7 @@ body{background-color:#f2f2f2}.logo a:hover,.logo a:focus{color:#859bb1 !importa
                 
                 </tr></tbody></table>
                 <div class="email-footer__address--inline">
-                  <div>taxiaone.com<br>Taxi A One - Play Store<br>Taxi A One - App Store</div>
+                  <div style="color:black;"><b>Parker</b><br>Parker - Play Store<br>Parker - App Store</div>
                 </div>
                 <div class="email-footer__permission--inline">
                   
@@ -991,19 +1017,6 @@ body{background-color:#f2f2f2}.logo a:hover,.logo a:focus{color:#859bb1 !importa
             <div class="column narrow">
               <div class="column__padding--inline">
                 
-              </div>
-            </div>
-          <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
-          </div>
-        </div>
-        <div class="layout one-col email-footer">
-          <div class="layout__inner">
-          <!--[if (mso)|(IE)]><table align="center" cellpadding="0" cellspacing="0" role="presentation"><tr class="layout-email-footer"><td style="width: 600px;" class="w560"><![endif]-->
-            <div class="column">
-              <div class="column__padding--inline">
-                <div class="email-footer__subscription--inline">
-                  <unsubscribe style="text-decoration: underline;">No recibir correos</unsubscribe>
-                </div>
               </div>
             </div>
           <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
