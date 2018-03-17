@@ -316,6 +316,32 @@ router.post("/get_usuarios_despacho",function(req,res){
     });
 });
 
+router.post("/get_usuarios_clientes",function(req,res){
+    var collection    =  datb.collection('Usuario');
+    collection.aggregate([
+		{ $match:  { "tipo_usuario_id" : ObjectId("5aa851a78b44e9f4307f19a0") } },
+		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
+		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
+		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
+		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
+		{ $lookup: { from: "Tipo_Comision", localField: "tipo_comision_id", foreignField: "_id", as: "tipo_comision" } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Usuarios";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_ciudades",function(req,res){
     var collection    =  datb.collection('Ciudad');
     collection.aggregate([
