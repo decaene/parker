@@ -1727,6 +1727,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 router.post("/guardar_comprobante_cliente",function(req,res){
 	console.log("T");
 	console.log(req);
+	console.log(req.res.name);
 	upload(req,res,function(err){
 		if(err){
 			 res.json({error_code:1,err_desc:err});
