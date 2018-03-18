@@ -27,6 +27,7 @@ app.use(bodyParser());
 
 app.use('/empresa', express.static('empresa'));
 app.use('/usuario', express.static('usuario'));
+app.use('/comprobantes', express.static('uploads'));
 
 // Run server to listen on port 3005.
 var server = app.listen(3017, () => {
