@@ -19,6 +19,7 @@ var nodemailer  	=   require('nodemailer');
 var smtpTransport 	= 	require('nodemailer-smtp-transport');
 var handlebars 	  	= 	require('handlebars');
 var fs 				= 	require('fs');
+var multer 			= 	require('multer');
 
 app.use(bodyParser({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
@@ -106,6 +107,21 @@ io.on('connection', (socket) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended" : false}));
+
+var storage = multer.diskStorage({ //multers disk storage settings
+	destination: function (req, file, cb) {
+		cb(null, './uploads/')
+	},
+	filename: function (req, file, cb) {
+		var datetimestamp = Date.now();
+		cb(null, file.originalname)
+	}
+});
+
+var upload = multer({ //multer settings
+	storage: storage
+}).single('file');
+/** API path that will upload the files */
 
 var readHTMLFile = function(path, callback) {
     fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
@@ -1679,6 +1695,46 @@ router.post("/actualizar_vehiculo",function(req,res){
 			}
 		});
 });
+
+router.post("/actualizar_venta_comprobante_cliente",function(req,res){
+		var collection					=  datb.collection('Venta');
+		var venta_id	                =  ObjectId(req.body.venta._id);
+		collection.update(
+					{ '_id' : venta_id }, 
+					{ $set: { 	"comprobante_cliente" : req.body.tracker.nombre,
+								"ip" : req.body.tracker.ip, 
+								"puerto" : req.body.tracker.puerto,
+								"serial" : req.body.tracker.serial } }, 
+					function(err, result2){  
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}
+			else{			
+				
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Tracker actualizado :)";
+				res.send(result_return);
+			}
+		});
+});
+
+router.post("/guardar_comprobante_cliente",function(req,res){
+	console.log("T");
+	console.log(req);
+	upload(req,res,function(err){
+		if(err){
+			 res.json({error_code:1,err_desc:err});
+			 return;
+		}
+		 res.json({error_code:0,err_desc:null});
+	})
+});
+
 
 router.post("/actualizar_tracker",function(req,res){
 		var collection					=  datb.collection('Tracker');
