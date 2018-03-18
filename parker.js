@@ -1718,7 +1718,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 				
 				var result_return      = {};
 				result_return.status   = "success";
-				result_return.message  = "Datos actualizados, gracias :)";
+				result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
 				res.send(result_return);
 			}
 		});
