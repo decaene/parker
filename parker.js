@@ -1701,12 +1701,11 @@ router.post("/actualizar_vehiculo",function(req,res){
 router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		var collection					=  datb.collection('Venta');
 		var venta_id	                =  ObjectId(req.body.venta._id);
+		console.log(req.body.venta);
 		collection.update(
 					{ '_id' : venta_id }, 
-					{ $set: { 	"comprobante_cliente" : req.body.tracker.nombre,
-								"ip" : req.body.tracker.ip, 
-								"puerto" : req.body.tracker.puerto,
-								"serial" : req.body.tracker.serial } }, 
+					{ $set: { 	"comprobante_cliente" : req.body.venta.nombre_comprobante,
+								"tipo_venta_id" : ObjectId("5aadb23fabbd8086e6c66bc8") } }, 
 					function(err, result2){  
 						if(err){
 							var res_err      = {};
@@ -1719,7 +1718,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 				
 				var result_return      = {};
 				result_return.status   = "success";
-				result_return.message  = "Tracker actualizado :)";
+				result_return.message  = "Datos actualizados, gracias :)";
 				res.send(result_return);
 			}
 		});
