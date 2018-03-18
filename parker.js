@@ -341,6 +341,8 @@ router.post("/get_ventas_vendedor",function(req,res){
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } }
+		{ $unwind: { path: "$despacho_usuario" } },
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -368,7 +370,9 @@ router.post("/get_ventas_despacho",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
-		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } }
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $unwind: { path: "$despacho_usuario" } },
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -396,7 +400,9 @@ router.post("/get_ventas_cliente",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
-		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } }
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $unwind: { path: "$despacho_usuario" } },
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -423,7 +429,9 @@ router.post("/get_ventas",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
-		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } }
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $unwind: { path: "$despacho_usuario" } },
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
