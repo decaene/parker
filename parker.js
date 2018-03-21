@@ -1047,7 +1047,7 @@ router.post("/nuevo_usuario_empresa",function(req,res){
 		break;
 		case '5ab2edb68fd9b9c63485baa3':
 			console.log("Repartidor - Nuevo Usuario");
-			req.body.data.almacen_id = new ObjectId(req.body.data.almacen._id);
+			req.body.data.almacen_id = new ObjectId(req.body.data.almacen_id);
 			delete req.body.data.banco;
 			delete req.body.data.almacen;
 			delete req.body.data.tipo_empleado;
