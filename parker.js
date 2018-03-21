@@ -1786,7 +1786,12 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 		var venta_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : venta_id }, 
-		{ $set: { "tipo_venta_id" : ObjectId("5ab2e34a8fd9b9c63485baa0") } }, 
+		{ $set: { 	"tipo_venta_id" 		: ObjectId("5ab2e34a8fd9b9c63485baa0"),
+					"fecha_recojo" 			: req.body.venta.fecha_recojo,
+					"tipo_de_pago" 			: req.body.venta.tipo_de_pago,
+					"tipo_de_pago_id"		: ObjectId(req.body.venta.tipo_de_pago_id),
+					"monto_total_despacho" 	: req.body.venta.monto_total_despacho
+		} }, 
 		function(err, result2){  
 			if(err){
 				var res_err      = {};
