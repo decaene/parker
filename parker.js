@@ -342,6 +342,7 @@ router.post("/get_ventas_vendedor",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
+		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
 		{ $unwind: { path: "$despacho_usuario" } },
 		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
@@ -373,6 +374,7 @@ router.post("/get_ventas_despacho",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
+		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
 		{ $unwind: { path: "$despacho_usuario" } },
 		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
@@ -403,7 +405,8 @@ router.post("/get_ventas_cliente",function(req,res){
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
-		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
+		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } 
+		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
 		{ $unwind: { path: "$despacho_usuario" } },
 		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
@@ -434,6 +437,7 @@ router.post("/get_ventas",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
+		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
 		{ $unwind: { path: "$despacho_usuario" } },
 		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
@@ -1739,6 +1743,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							res.send(res_err);
 						}
 						else{
+							enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
 							var result_return      = {};
 							result_return.status   = "success";
 							result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
@@ -1746,6 +1751,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 						}
 					});				
 				}else{		
+					enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
 					var result_return      = {};
 					result_return.status   = "success";
 					result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
