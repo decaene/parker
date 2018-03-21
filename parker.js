@@ -1711,10 +1711,24 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		var venta_id	                =  ObjectId(req.body.venta._id);
 		console.log(req.body.venta);
 		collection.update(
-					{ '_id' : venta_id }, 
-					{ $set: { 	"comprobante_cliente" : req.body.venta.nombre_comprobante,
-								"tipo_venta_id" : ObjectId("5aadb23fabbd8086e6c66bc8") } }, 
-					function(err, result2){  
+		{ '_id' : venta_id }, 
+		{ $set: { 	"comprobante_cliente" : req.body.venta.nombre_comprobante,
+					"tipo_venta_id" : ObjectId("5aadb23fabbd8086e6c66bc8") } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}else{			
+				var venta_id = result.insertedIds[0];
+				if(req.body.venta.pagos_a_terceros.length > 0){
+					var pagos_a_terceros = {};
+					pagos_a_terceros.venta_id = venta_id;
+					pagos_a_terceros.pagos = req.body.venta.pagos_a_terceros;
+					collection	=  datb.collection('Pago_A_Tercero');
+					collection.insert(pagos_a_terceros, function(err, result) {
 						if(err){
 							var res_err      = {};
 							res_err.status   = "error";
@@ -1722,12 +1736,19 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							res_err.message  = err;
 							res.send(res_err);
 						}
-			else{			
-				
-				var result_return      = {};
-				result_return.status   = "success";
-				result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
-				res.send(result_return);
+						else{
+							var result_return      = {};
+							result_return.status   = "success";
+							result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
+							res.send(result_return);
+						}
+					});				
+				}else{		
+					var result_return      = {};
+					result_return.status   = "success";
+					result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
+					res.send(result_return);					
+				}
 			}
 		});
 });
