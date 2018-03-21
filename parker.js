@@ -1722,7 +1722,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 				res_err.message  = err;
 				res.send(res_err);
 			}else{			
-				var venta_id = result.insertedIds[0];
+				var venta_id = result2.insertedIds[0];
 				if(req.body.venta.pagos_a_terceros.length > 0){
 					var pagos_a_terceros = {};
 					pagos_a_terceros.venta_id = venta_id;
