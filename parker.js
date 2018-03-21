@@ -827,6 +827,26 @@ router.post("/get_tipos_empleado",function(req,res){
     });
 });
 
+router.post("/get_tipo_pago",function(req,res){
+    var collection    =  datb.collection('Tipo_Pago');
+    collection.aggregate([
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Tipo_Pago";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_tipos_comision",function(req,res){
     var collection    =  datb.collection('Tipo_Comision');
     collection.aggregate([
@@ -1755,6 +1775,52 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 					var result_return      = {};
 					result_return.status   = "success";
 					result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
+					res.send(result_return);					
+				}
+			}
+		});
+});
+
+router.post("/actualizar_venta_comprobante_despacho",function(req,res){
+		var collection					=  datb.collection('Venta');
+		var venta_id	                =  ObjectId(req.body.venta._id);
+		collection.update(
+		{ '_id' : venta_id }, 
+		{ $set: { "tipo_venta_id" : ObjectId("5ab2e34a8fd9b9c63485baa0") } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}else{			
+				if(req.body.venta.facturas.length > 0){
+					var facturas = {};
+					facturas.venta_id = venta_id;
+					facturas.pagos = req.body.venta.facturas;
+					collection	=  datb.collection('Factura');
+					collection.insert(facturas, function(err, result) {
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}
+						else{
+							// enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+							var result_return      = {};
+							result_return.status   = "success";
+							result_return.message  = "Facturas capturadas, gracias :)";
+							res.send(result_return);
+						}
+					});				
+				}else{		
+					// enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+					var result_return      = {};
+					result_return.status   = "success";
+					result_return.message  = "Facturas capturadas, gracias :)";
 					res.send(result_return);					
 				}
 			}
