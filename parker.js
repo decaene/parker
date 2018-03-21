@@ -1709,7 +1709,6 @@ router.post("/actualizar_vehiculo",function(req,res){
 router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		var collection					=  datb.collection('Venta');
 		var venta_id	                =  ObjectId(req.body.venta._id);
-		console.log(req.body.venta);
 		collection.update(
 		{ '_id' : venta_id }, 
 		{ $set: { 	"comprobante_cliente" : req.body.venta.nombre_comprobante,
@@ -1722,6 +1721,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 				res_err.message  = err;
 				res.send(res_err);
 			}else{			
+				console.log(result2);
 				var venta_id = result2.insertedIds[0];
 				if(req.body.venta.pagos_a_terceros.length > 0){
 					var pagos_a_terceros = {};
