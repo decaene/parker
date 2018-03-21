@@ -537,7 +537,7 @@ router.post("/get_usuarios_repartidores",function(req,res){
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
-		{ $lookup: { from: "Tipo_Comision", localField: "tipo_comision_id", foreignField: "_id", as: "tipo_comision" } }
+		{ $lookup: { from: "Tipo_Comision", localField: "tipo_comision_id", foreignField: "_id", as: "tipo_comision" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } }
     ]).toArray(function(err, result){  
         if(err){
