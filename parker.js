@@ -1804,7 +1804,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							res.send(res_err);
 						}
 						else{
-							enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+							enviar_correo(req.body.venta.despacho_usuario[0].email, req.body.venta.despacho_usuario[0], "El depósito se ha realizado", "Favor de capturar los datos de facturación");
 							var result_return      = {};
 							result_return.status   = "success";
 							result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
@@ -1812,7 +1812,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 						}
 					});				
 				}else{		
-					enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+					enviar_correo(req.body.venta.despacho_usuario[0].email, req.body.venta.despacho_usuario[0], "El depósito se ha realizado", "Favor de capturar los datos de facturación");
 					var result_return      = {};
 					result_return.status   = "success";
 					result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
@@ -1855,7 +1855,7 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 							res.send(res_err);
 						}
 						else{
-							enviar_correo(req.body.venta.repartidor.email, req.body.venta.repartidor, "Facturas capturadas", "Favor de revisar la información capturada por el despacho, fecha de recojo y el monto total.");
+							enviar_correo(req.body.venta.repartidor[0].email, req.body.venta.repartidor[0], "Facturas capturadas", "Favor de revisar la información capturada por el despacho, fecha de recojo y el monto total.");
 							var result_return      = {};
 							result_return.status   = "success";
 							result_return.message  = "Facturas capturadas, gracias :)";
@@ -1863,12 +1863,36 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 						}
 					});				
 				}else{		
-					enviar_correo(req.body.venta.repartidor.email, req.body.venta.repartidor, "Facturas capturadas", "Favor de revisar la información capturada por el despacho, fecha de recojo y el monto total.");
+					enviar_correo(req.body.venta.repartidor[0].email, req.body.venta.repartidor[0], "Facturas capturadas", "Favor de revisar la información capturada por el despacho, fecha de recojo y el monto total.");
 					var result_return      = {};
 					result_return.status   = "success";
 					result_return.message  = "Facturas capturadas, gracias :)";
 					res.send(result_return);					
 				}
+			}
+		});
+});
+
+router.post("/actualizar_venta_comprobante_repartidor_en_transito",function(req,res){
+		var collection					=  datb.collection('Venta');
+		var venta_id	                =  ObjectId(req.body.venta._id);
+		collection.update(
+		{ '_id' : venta_id }, 
+		{ $set: { 	"tipo_venta_id" 		: ObjectId("5ab2f717094b06e86c1c1b33")
+		} }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}else{			
+				enviar_correo(req.body.venta.despacho_usuario[0].email, req.body.venta.despacho_usuario[0], "Repartidor ha recibido el dinero.", "El repartidor esta en tránsito para la entrega.");
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Estado actualizado a: 'En tránsito', gracias :)";
+				res.send(result_return);	
 			}
 		});
 });
