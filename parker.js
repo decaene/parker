@@ -1824,6 +1824,31 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		});
 });
 
+router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
+		var collection					=  datb.collection('Venta');
+		var venta_id	                =  ObjectId(req.body.venta._id);
+		collection.update(
+		{ '_id' : venta_id }, 
+		{ $set: { 	"comprobante_repartidor" : req.body.venta.comprobante_repartidor,
+					"tipo_venta_id" : ObjectId("5ab2fe85094b06e86c1c1b34") } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}else{			
+				var usuario	= req.body.venta.despacho_usuario.nombre + " " + req.body.venta.despacho_usuario.apellido;
+				enviar_correo(req.body.venta.despacho_usuario.email, usuario, "Folio completado", "El repartidor terminó el proceso.");
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Comprobante capturado, gracias :)";
+				res.send(result_return);			
+			}
+		});
+});
+
 router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 		var collection					=  datb.collection('Venta');
 		var venta_id	                =  ObjectId(req.body.venta._id);
