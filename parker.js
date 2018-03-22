@@ -938,13 +938,13 @@ router.post("/autenticacion",function(req,res){
         }
         if(result.length === 0){
             var res_err      = {};
-            res_err.status   = "success";
+            res_err.status   = "info";
             res_err.message  = "Correo electrónico o contraseña equivocada.";
             res.send(res_err);
         }else{
             if(result[0].status != 1){
                 var res_data      = {};
-                res_data.status   = "success";
+                res_data.status   = "info";
                 res_data.message  = "Tu cuenta esta inactiva, para mas información contacta soporte.";
                 res_data.data     = result[0];
                 res.send(res_data);
@@ -990,7 +990,7 @@ router.post("/nuevo_usuario",function(req,res){
                 });
             }else{
                 var res_err      = {};
-                res_err.status   = "success";
+                res_err.status   = "info";
                 res_err.message  = "Este correo electrónico ya fue registrado anteriormente.";
                 res.send(res_err);
             }
