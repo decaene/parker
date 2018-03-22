@@ -338,6 +338,7 @@ router.post("/get_ventas_vendedor",function(req,res){
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
 		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
@@ -369,7 +370,8 @@ router.post("/get_ventas_despacho",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
-		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },		
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
@@ -401,7 +403,8 @@ router.post("/get_ventas_cliente",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
-		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },		
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
@@ -433,6 +436,7 @@ router.post("/get_ventas",function(req,res){
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
 		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
@@ -2239,6 +2243,7 @@ router.post("/nueva_venta",function(req,res){
 	req.body.venta.despacho_id 			=  ObjectId(req.body.venta.despacho._id);
 	req.body.venta.despacho_usuario_id 	=  ObjectId(req.body.venta.despacho_usuario._id);
 	req.body.venta.almacen_id 			=  ObjectId(req.body.venta.almacen._id);
+	req.body.venta.repartidor_id		=  ObjectId(req.body.venta.repartidor._id);
 	req.body.venta.usuario_id 			=  ObjectId(req.body.venta.usuario_id);
 	req.body.venta.tipo_venta_id		=  ObjectId(req.body.venta.tipo_venta_id);
 	
@@ -2258,6 +2263,7 @@ router.post("/nueva_venta",function(req,res){
 	delete req.body.venta.despacho;
 	delete req.body.venta.despacho_usuario;
 	delete req.body.venta.almacen;
+	delete req.body.venta.repartidor;
 	
     collection.insert(req.body.venta, function(err, result) {
         if(err){
