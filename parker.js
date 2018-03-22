@@ -1855,7 +1855,7 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 							res.send(res_err);
 						}
 						else{
-							// enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+							enviar_correo(req.body.venta.repartidor.email, req.body.venta.repartidor, "Facturas capturadas", "Favor de revisar la información capturada por el despacho, fecha de recojo y el monto total.");
 							var result_return      = {};
 							result_return.status   = "success";
 							result_return.message  = "Facturas capturadas, gracias :)";
@@ -1863,7 +1863,7 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 						}
 					});				
 				}else{		
-					// enviar_correo(req.body.venta.despacho_usuario.email, req.body.venta.despacho_usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+					enviar_correo(req.body.venta.repartidor.email, req.body.venta.repartidor, "Facturas capturadas", "Favor de revisar la información capturada por el despacho, fecha de recojo y el monto total.");
 					var result_return      = {};
 					result_return.status   = "success";
 					result_return.message  = "Facturas capturadas, gracias :)";
