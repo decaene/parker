@@ -536,7 +536,7 @@ router.post("/get_configuraciones",function(req,res){
 router.post("/get_configuracion_carga",function(req,res){
     var collection    =  datb.collection('Configuracion');
     collection.aggregate([
-		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) , "servicio_id" : ObjectId(req.body.servicio._id)} },
+		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) , "servicio_id" : ObjectId(req.body.servicio._id), "status" : 1} },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
