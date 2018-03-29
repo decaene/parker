@@ -1849,7 +1849,7 @@ router.post("/actualizar_vehiculo",function(req,res){
 });
 
 router.post("/actualizar_configuracion",function(req,res){
-		var collection			=  datb.collection('Vehiculo');
+		var collection			=  datb.collection('Configuracion');
 		var configuracion_id	=  ObjectId(req.body.configuracion._id);
 		collection.update(
 					{ '_id' : configuracion_id }, 
