@@ -505,6 +505,7 @@ router.post("/get_servicios_cliente",function(req,res){
 router.post("/get_configuraciones",function(req,res){
     var collection    =  datb.collection('Configuracion');
     collection.aggregate([
+		{ $match:  { "status" : 1 } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
@@ -2231,23 +2232,25 @@ router.post("/eliminar_vehiculo",function(req,res){
 router.post("/eliminar_configuracion",function(req,res){
     var collection			=  datb.collection('Configuracion');
     var configuracion_id	=  ObjectId(req.body.configuracion._id);
-    collection.deleteOne(
-        { '_id' : configuracion_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Configuración eliminada :)";
-                res.send(res_data);
-            }
-    });
+    collection.update(
+				{ '_id' : configuracion_id }, 
+				{ $set: { 	"status" : 2 } }, 
+				function(err, result2){  
+					if(err){
+						var res_err      = {};
+						res_err.status   = "error";
+						res_err.error    = err;
+						res_err.message  = err;
+						res.send(res_err);
+					}
+		else{			
+			
+			var result_return      = {};
+			result_return.status   = "success";
+			result_return.message  = "Configuración eliminada :)";
+			res.send(result_return);
+		}
+	});
 });
 
 router.post("/eliminar_tracker",function(req,res){
@@ -2493,6 +2496,7 @@ router.post("/nueva_venta",function(req,res){
 	req.body.venta.repartidor_id		=  ObjectId(req.body.venta.repartidor._id);
 	req.body.venta.usuario_id 			=  ObjectId(req.body.venta.usuario_id);
 	req.body.venta.tipo_venta_id		=  ObjectId(req.body.venta.tipo_venta_id);
+	req.body.venta.configuracion_id		=  ObjectId(req.body.venta.configuracion_id);
 	
 	// DATOS DE CORREO
 	var correo_cliente 	= req.body.venta.cliente.email;
