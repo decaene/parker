@@ -502,6 +502,26 @@ router.post("/get_servicios_cliente",function(req,res){
     });
 });
 
+router.post("/get_configuraciones",function(req,res){
+    var collection    =  datb.collection('Configuracion');
+    collection.aggregate([
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Configuraciones";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_usuarios_empresa",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
