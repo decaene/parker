@@ -505,6 +505,17 @@ router.post("/get_servicios_cliente",function(req,res){
 router.post("/get_configuraciones",function(req,res){
     var collection    =  datb.collection('Configuracion');
     collection.aggregate([
+		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
+		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
+		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
+		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
+		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $unwind: { path: "$despacho_usuario" } },
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -2439,6 +2450,43 @@ router.post("/nueva_venta",function(req,res){
 			
             result.status  = "success";
 			result.message = "Venta agregada :)";
+			res.send(result);
+        }
+    });
+});
+
+router.post("/nueva_configuracion",function(req,res){
+	
+    var collection								=  datb.collection('Configuracion');
+	req.body.configuracion.vendedor_id 			=  ObjectId(req.body.configuracion.vendedor._id);
+	req.body.configuracion.cliente_id 			=  ObjectId(req.body.configuracion.cliente._id);
+	req.body.configuracion.despacho_id 			=  ObjectId(req.body.configuracion.despacho._id);
+	req.body.configuracion.despacho_usuario_id 	=  ObjectId(req.body.configuracion.despacho_usuario._id);
+	req.body.configuracion.almacen_id 			=  ObjectId(req.body.configuracion.almacen._id);
+	req.body.configuracion.repartidor_id		=  ObjectId(req.body.configuracion.repartidor._id);
+	req.body.configuracion.servicio_id 			=  ObjectId(req.body.configuracion.servicio._id);
+	req.body.configuracion.tipo_pago_id			=  ObjectId(req.body.configuracion.tipo_pago._id);
+	
+	delete req.body.configuracion.vendedor;
+	delete req.body.configuracion.cliente;
+	delete req.body.configuracion.despacho;
+	delete req.body.configuracion.despacho_usuario;
+	delete req.body.configuracion.almacen;
+	delete req.body.configuracion.repartidor;
+	delete req.body.configuracion.servicio;
+	delete req.body.configuracion.tipo_pago;
+	
+    collection.insert(req.body.configuracion, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{			
+            result.status  = "success";
+			result.message = "Configuración	agregada :)";
 			res.send(result);
         }
     });
