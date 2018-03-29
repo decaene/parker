@@ -481,7 +481,7 @@ router.post("/get_usuarios",function(req,res){
     });
 });
 
-router.post("/get_servicios",function(req,res){
+router.post("/get_servicios_cliente",function(req,res){
     var collection    =  datb.collection('Servicio');
     collection.aggregate([
 		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) } }
