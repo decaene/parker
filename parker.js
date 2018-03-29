@@ -505,7 +505,6 @@ router.post("/get_servicios_cliente",function(req,res){
 router.post("/get_configuraciones",function(req,res){
     var collection    =  datb.collection('Configuracion');
     collection.aggregate([
-		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
@@ -1849,6 +1848,30 @@ router.post("/actualizar_vehiculo",function(req,res){
 		});
 });
 
+router.post("/actualizar_configuracion",function(req,res){
+		var collection			=  datb.collection('Vehiculo');
+		var configuracion_id	=  ObjectId(req.body.configuracion._id);
+		collection.update(
+					{ '_id' : configuracion_id }, 
+					{ $set: { 	"nombre" : req.body.configuracion.nombre } }, 
+					function(err, result2){  
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}
+			else{			
+				
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Configuración actualizada :)";
+				res.send(result_return);
+			}
+		});
+});
+
 router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		var collection					=  datb.collection('Venta');
 		var venta_id	                =  ObjectId(req.body.venta._id);
@@ -2169,6 +2192,28 @@ router.post("/eliminar_vehiculo",function(req,res){
                 var res_data    = {};
                 res_data.status  = "success";
                 res_data.message = "Vehículo eliminado :)";
+                res.send(res_data);
+            }
+    });
+});
+
+router.post("/eliminar_configuracion",function(req,res){
+    var collection			=  datb.collection('Configuracion');
+    var configuracion_id	=  ObjectId(req.body.configuracion._id);
+    collection.deleteOne(
+        { '_id' : configuracion_id },
+        function(err, result){  
+            if(err){
+                var res_err      = {};
+                res_err.status   = "error";
+                res_err.error    = err;
+                res_err.message  = err;
+                res.send(res_err);
+            }
+            else{
+                var res_data    = {};
+                res_data.status  = "success";
+                res_data.message = "Configuración eliminada :)";
                 res.send(res_data);
             }
     });
