@@ -532,6 +532,37 @@ router.post("/get_configuraciones",function(req,res){
     });
 });
 
+router.post("/get_configuracion_carga",function(req,res){
+    var collection    =  datb.collection('Configuracion');
+    collection.aggregate([
+		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) , "servicio_id" : ObjectId(req.body.servicio._id)} },
+		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
+		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
+		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
+		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $unwind: { path: "$despacho_usuario" } },
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Configuración carga";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_usuarios_empresa",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
@@ -2455,6 +2486,7 @@ router.post("/nueva_venta",function(req,res){
     var collection						=  datb.collection('Venta');
 	req.body.venta.vendedor_id 			=  ObjectId(req.body.venta.vendedor._id);
 	req.body.venta.cliente_id 			=  ObjectId(req.body.venta.cliente._id);
+	req.body.venta.servicio_id 			=  ObjectId(req.body.venta.servicio._id);
 	req.body.venta.despacho_id 			=  ObjectId(req.body.venta.despacho._id);
 	req.body.venta.despacho_usuario_id 	=  ObjectId(req.body.venta.despacho_usuario._id);
 	req.body.venta.almacen_id 			=  ObjectId(req.body.venta.almacen._id);
@@ -2479,6 +2511,7 @@ router.post("/nueva_venta",function(req,res){
 	delete req.body.venta.despacho_usuario;
 	delete req.body.venta.almacen;
 	delete req.body.venta.repartidor;
+	delete req.body.venta.servicio;
 	
     collection.insert(req.body.venta, function(err, result) {
         if(err){
