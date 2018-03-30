@@ -2067,7 +2067,7 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 		var factura_id	                =  ObjectId(req.body.factura._id);
 		collection.update(
 		{ '_id' : factura_id }, 
-		{ $set: { 	"pagos"	: req.body.factura.pagos
+		{ $set: { 	"pagos"	: req.body.factura.pagos , "estatus_facturas" : req.body.factura.estatus_facturas
 		} }, 
 		function(err, result2){  
 			if(err){
