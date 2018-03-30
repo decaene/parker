@@ -2502,6 +2502,7 @@ router.post("/nueva_venta",function(req,res){
 	req.body.venta.repartidor_id		=  ObjectId(req.body.venta.repartidor._id);
 	req.body.venta.usuario_id 			=  ObjectId(req.body.venta.usuario_id);
 	req.body.venta.tipo_venta_id		=  ObjectId(req.body.venta.tipo_venta_id);
+	req.body.venta.tipo_pago_id			=  ObjectId(req.body.venta.tipo_pago._id);
 	req.body.venta.configuracion_id		=  ObjectId(req.body.venta.configuracion_id);
 	
 	// DATOS DE CORREO
