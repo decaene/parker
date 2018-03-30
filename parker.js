@@ -2067,7 +2067,7 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 		var factura_id	                =  ObjectId(req.body.factura._id);
 		collection.update(
 		{ '_id' : factura_id }, 
-		{ $set: { 	"pagos"	: req.body.factura.pagos , "estatus_facturas" : req.body.factura.estatus_facturas
+		{ $set: { 	"pagos"	: req.body.factura.pagos 
 		} }, 
 		function(err, result2){  
 			if(err){
@@ -2077,10 +2077,26 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 				res_err.message  = err;
 				res.send(res_err);
 			}else{			
-				var result_return      = {};
-				result_return.status   = "success";
-				result_return.message  = "Facturas actualizadas, gracias :)";
-				res.send(result_return);	
+				collection						=  datb.collection('Venta');
+				var venta_id	                =  ObjectId(req.body.factura.venta_id);
+				collection.update(
+				{ '_id' : venta_id }, 
+				{ $set: {  "estatus_facturas" : req.body.factura.estatus_facturas
+				} }, 
+				function(err, result2){  
+					if(err){
+						var res_err      = {};
+						res_err.status   = "error";
+						res_err.error    = err;
+						res_err.message  = err;
+						res.send(res_err);
+					}else{			
+						var result_return      = {};
+						result_return.status   = "success";
+						result_return.message  = "Facturas actualizadas, gracias :)";
+						res.send(result_return);	
+					}
+				});
 			}
 		});
 });
