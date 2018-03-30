@@ -2062,6 +2062,29 @@ router.post("/actualizar_venta_comprobante_repartidor_en_transito",function(req,
 		});
 });
 
+router.post("/actualizar_facturas_despacho",function(req,res){
+		var collection					=  datb.collection('Factura');
+		var factura_id	                =  ObjectId(req.body.factura._id);
+		collection.update(
+		{ '_id' : factura_id }, 
+		{ $set: { 	"pagos"	: req.body.factura.pagos
+		} }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}else{			
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Facturas actualizadas, gracias :)";
+				res.send(result_return);	
+			}
+		});
+});
+
 router.post("/guardar_comprobante_cliente",function(req,res){
 	upload(req,res,function(err){
 		if(err){
