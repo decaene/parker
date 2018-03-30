@@ -1970,7 +1970,8 @@ router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
 		var venta_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : venta_id }, 
-		{ $set: { 	"comprobante_repartidor" : req.body.venta.comprobante_repartidor,
+		{ $set: { 	"comprobante_repartidor_almacen" : req.body.venta.comprobante_repartidor_almacen,
+					"comprobante_repartidor_despacho" : req.body.venta.comprobante_repartidor_despacho,
 					"tipo_venta_id" : ObjectId("5ab2fe85094b06e86c1c1b34") } }, 
 		function(err, result2){  
 			if(err){
