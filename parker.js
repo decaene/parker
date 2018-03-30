@@ -1970,9 +1970,9 @@ router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
 		var venta_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : venta_id }, 
-		{ $set: { 	"comprobante_repartidor_almacen" : req.body.venta.comprobante_repartidor_almacen,
+		{ $set: { 	"comprobante_repartidor_cliente" : req.body.venta.comprobante_repartidor_cliente,
 					"comprobante_repartidor_despacho" : req.body.venta.comprobante_repartidor_despacho,
-					"tipo_venta_id" : ObjectId("5ab2fe85094b06e86c1c1b34") } }, 
+					"tipo_venta_id" : ObjectId("5abe9a006484321304856cac") } }, 
 		function(err, result2){  
 			if(err){
 				var res_err      = {};
@@ -2047,7 +2047,7 @@ router.post("/actualizar_venta_comprobante_repartidor_en_transito",function(req,
 		var venta_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : venta_id }, 
-		{ $set: { 	"tipo_venta_id" 		: ObjectId("5ab2f717094b06e86c1c1b33")
+		{ $set: {  "monto_repartidor" : req.body.venta.monto_repartidor, "tipo_venta_id" : ObjectId("5ab2f717094b06e86c1c1b33")
 		} }, 
 		function(err, result2){  
 			if(err){
