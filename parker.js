@@ -1993,7 +1993,7 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 		{ '_id' : venta_id }, 
 		{ $set: { 	"tipo_venta_id" 		: ObjectId("5ab2e34a8fd9b9c63485baa0"),
 					"fecha_recojo" 			: req.body.venta.fecha_recojo,
-					"monto_total_despacho" 	: req.body.venta.monto_total_despacho
+					"estatus_facturas"		: req.body.venta.estatus_facturas// 1 - Capturadas completas , 2 - Faltan por subir
 		} }, 
 		function(err, result2){  
 			if(err){
