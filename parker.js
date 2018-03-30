@@ -334,6 +334,7 @@ router.post("/get_ventas_vendedor",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
 		{ $match:  { "vendedor_id" : ObjectId(req.body.usuario._id) } },
+		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
@@ -369,6 +370,7 @@ router.post("/get_ventas_despacho",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
 		{ $match:  { "despacho_usuario_id" : ObjectId(req.body.usuario._id) } },
+		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
@@ -404,6 +406,7 @@ router.post("/get_ventas_cliente",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
 		{ $match:  { "cliente_id" : ObjectId(req.body.usuario._id) } },
+		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
@@ -438,6 +441,7 @@ router.post("/get_ventas_cliente",function(req,res){
 router.post("/get_ventas",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
+		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
