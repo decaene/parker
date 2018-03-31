@@ -145,7 +145,7 @@ function enviar_correo(correo, usuario, mensaje, solicitud){
         secure: false, // true for 465, false for other ports
         auth: {
             user: 'alanbarreraff@gmail.com', // generated ethereal user
-            pass: 'pbo031117'  // generated ethereal password
+            pass: 'pablo09!!'  // generated ethereal password
         }
     });	
 	readHTMLFile('plantillas_correo/correo_base.html', function(err, html) {
@@ -1388,7 +1388,7 @@ router.post("/recuperar_contrasena",function(req,res){
 					secure: false, // true for 465, false for other ports
 					auth: {
 						user: 'alanbarreraff@gmail.com', // generated ethereal user
-						pass: 'pbo031117'  // generated ethereal password
+						pass: 'pablo09!!'  // generated ethereal password
 					}
 				});
 				let mailOptions = {
