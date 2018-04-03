@@ -21,6 +21,11 @@ var handlebars 	  	= 	require('handlebars');
 var fs 				= 	require('fs');
 var multer 			= 	require('multer');
 
+const FCM = require('fcm-node');
+// Replace these with your own values.
+const apiKey = "AAAAF2R8Wjs:APA91bEZNMcj8L7yzaiW4MhH3VoYnUQ1IbdH5E_j_AG-HPg_5khf4GS6tvX2CVqVUeLNQWim5U-SKFkSJPRBDe5DkLg4QYViZ5ORS0PffEXaiXQCgPFxk_CVhfxtyALIiK-13Zbh5ePJ";
+const fcm = new FCM(apiKey);
+
 app.use(bodyParser({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
 app.use(bodyParser());
@@ -136,6 +141,42 @@ var readHTMLFile = function(path, callback) {
         }
     });
 };
+
+function enviarNotificacion_Usuario(usuario_id, title_p, message_p){
+	collection 		 = datb.collection("Usuario");
+	collection.aggregate([
+    	{ $match :  { "_id": new ObjectId(usuario_id)}}
+	]).toArray(function(err, result){ 
+		var reg_tokens = [];
+		if(result.length > 0){
+
+			for(var i = 0; i<result.length; i++){
+				if(result[i].registration_id != "" && result[i].registration_id != undefined){
+					reg_tokens.push(result[i].registration_id);
+				}
+			}
+
+			const message = {
+				registration_ids: reg_tokens,
+				data: {
+					"title": title_p,
+					"message": message_p,
+					"image": "http://zcodiclean.codigeek.com/logo.png"
+				}
+			};
+
+			console.log(reg_tokens);
+			fcm.send(message, (err, response) => {
+			  if (err) {
+				console.log(err);
+				console.log("Something has gone wrong!");
+			  } else {
+				console.log("Successfully sent with response: ", response);
+			  }
+			});
+		}  
+    });
+}
 
 function enviar_correo(correo, usuario, mensaje, solicitud){
 	
@@ -288,24 +329,8 @@ router.get("/",function(req,res){
     // });
 // });
 
-router.post("/get_rutas",function(req,res){
-    var collection    =  datb.collection('Ruta');
-    collection.aggregate([
-    ]).toArray(function(err, result){  
-        if(err){
-            var res_err      = {};
-            res_err.status   = "error";
-            res_err.error    = err;
-            res_err.message  = err;
-            res.send(res_err);
-        }else{
-            var res_data      = {};
-            res_data.status   = "success";
-            res_data.message  = "Rutas";
-            res_data.data     = result;
-            res.send(res_data);
-        }
-    });
+router.post("/push_test",function(req,res){
+    enviarNotificacion_Usuario('5aa78d5edfe05cac9a071a57', 'test', 'test');
 });
 
 router.post("/get_empresas",function(req,res){
