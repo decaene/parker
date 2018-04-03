@@ -501,8 +501,8 @@ router.post("/get_notificaciones",function(req,res){
     collection.aggregate([
 		{ $match:  { "recibe" : ObjectId(req.body.usuario._id) } },
 		{ $lookup: { from: "Venta", localField: "venta_id", foreignField: "_id", as: "venta" } },
-		// { $unwind: { path: "$venta" } },
-		// { $lookup: { from: "Configuracion", localField: "venta.configuracion_id", foreignField: "_id", as: "venta.configuracion" } },
+		{ $unwind: { path: "$venta" } },
+		{ $lookup: { from: "Configuracion", localField: "venta.configuracion_id", foreignField: "_id", as: "venta.configuracion" } }
 		// { $lookup: { from: "Usuario", localField: "venta_info.usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		// { $lookup: { from: "Tipo_Pago", localField: "venta_info.tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		// { $lookup: { from: "Servicio", localField: "venta_info.servicio_id", foreignField: "_id", as: "servicio" } },
