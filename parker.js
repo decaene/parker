@@ -143,6 +143,7 @@ var readHTMLFile = function(path, callback) {
 };
 
 function enviarNotificacion_Usuario(usuario_id, title_p, message_p){
+	console.log(usuario_id);
 	collection 		 = datb.collection("Usuario");
 	collection.aggregate([
     	{ $match :  { "_id": new ObjectId(usuario_id)}}
