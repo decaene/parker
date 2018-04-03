@@ -1014,6 +1014,60 @@ router.post("/get_bancos",function(req,res){
 });
 
 
+router.post("/autenticacion_mobile",function(req,res){
+    var name_collection = "Usuario";
+    var email_login     =  req.body.data.email;
+    var password_login  =  req.body.data.contrasena;
+
+    var collection      = datb.collection('Usuario');
+    collection.aggregate([
+        { $match : { "email" : email_login, "contrasena" : password_login } }
+    ]).toArray(function(err, result){  
+		var usuario_insertado = result;
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        if(usuario_insertado.length === 0){
+            var res_err      = {};
+            res_err.status   = "info";
+            res_err.message  = "Correo electrónico o contraseña equivocada.";
+            res.send(res_err);
+        }else{
+			collection.update(
+				{ '_id' : ObjectId(usuario_insertado.insertedIds[0]) }, 
+				{ $set: { 'registrationId' : req.body.data.registrationId } }, 
+				function(err, result2){  
+					if(err){
+						var res_err      = {};
+						res_err.status   = "error"; 
+						res_err.error    = err;
+						res_err.message  = err;
+						res.send(res_err);
+					}
+					else{
+						if(usuario_insertado[0].status != 1){
+							var res_data      = {};
+							res_data.status   = "info";
+							res_data.message  = "Tu cuenta esta inactiva, para mas información contacta soporte.";
+							res_data.data     = usuario_insertado[0];
+							res.send(res_data);
+						}else{
+							var res_data      = {};
+							res_data.status   = "success";
+							res_data.message  = "Bienvenido.";
+							res_data.data     = usuario_insertado[0];
+							res.send(res_data);
+						}
+					}
+			});
+        }
+    });
+});
+
 router.post("/autenticacion",function(req,res){
     var name_collection = "Usuario";
     var email_login     =  req.body.data.email;
