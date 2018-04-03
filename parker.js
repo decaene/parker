@@ -503,20 +503,20 @@ router.post("/get_notificaciones",function(req,res){
 		{ $lookup: { from: "Venta", localField: "venta_id", foreignField: "_id", as: "venta" } },
 		{ $unwind: { path: "$venta" } },
 		{ $lookup: { from: "Configuracion", localField: "venta.configuracion_id", foreignField: "_id", as: "venta.configuracion" } },
-		{ $lookup: { from: "Usuario", localField: "venta.usuario_id", foreignField: "_id", as: "usuario_alta" } },
-		{ $lookup: { from: "Tipo_Pago", localField: "venta.tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
-		{ $lookup: { from: "Servicio", localField: "venta.servicio_id", foreignField: "_id", as: "servicio" } },
-		{ $lookup: { from: "Estatus_Venta", localField: "venta.tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
-		{ $lookup: { from: "Usuario", localField: "venta.vendedor_id", foreignField: "_id", as: "vendedor" } },
-		{ $lookup: { from: "Usuario", localField: "venta.cliente_id", foreignField: "_id", as: "cliente" } },
-		{ $lookup: { from: "Usuario", localField: "venta.repartidor_id", foreignField: "_id", as: "repartidor" } },
-		{ $lookup: { from: "Despacho", localField: "venta.despacho_id", foreignField: "_id", as: "despacho" } },
-		{ $lookup: { from: "Usuario", localField: "venta.despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
-		{ $lookup: { from: "Almacen", localField: "venta.almacen_id", foreignField: "_id", as: "almacen" } },
-		{ $lookup: { from: "Pago_A_Tercero", localField: "venta._id", foreignField: "venta_id", as: "pagos_a_terceros" } },
-		{ $lookup: { from: "Factura", localField: "venta._id", foreignField: "venta_id", as: "facturas" } },
+		{ $lookup: { from: "Usuario", localField: "venta.usuario_id", foreignField: "_id", as: "venta.usuario_alta" } },
+		{ $lookup: { from: "Tipo_Pago", localField: "venta.tipo_pago_id", foreignField: "_id", as: "venta.tipo_pago" } },
+		{ $lookup: { from: "Servicio", localField: "venta.servicio_id", foreignField: "_id", as: "venta.servicio" } },
+		{ $lookup: { from: "Estatus_Venta", localField: "venta.tipo_venta_id", foreignField: "_id", as: "venta.estatus_venta" } },
+		{ $lookup: { from: "Usuario", localField: "venta.vendedor_id", foreignField: "_id", as: "venta.vendedor" } },
+		{ $lookup: { from: "Usuario", localField: "venta.cliente_id", foreignField: "_id", as: "venta.cliente" } },
+		{ $lookup: { from: "Usuario", localField: "venta.repartidor_id", foreignField: "_id", as: "venta.repartidor" } },
+		{ $lookup: { from: "Despacho", localField: "venta.despacho_id", foreignField: "_id", as: "venta.despacho" } },
+		{ $lookup: { from: "Usuario", localField: "venta.despacho_usuario_id", foreignField: "_id", as: "venta.despacho_usuario" } },
+		{ $lookup: { from: "Almacen", localField: "venta.almacen_id", foreignField: "_id", as: "venta.almacen" } },
+		{ $lookup: { from: "Pago_A_Tercero", localField: "venta._id", foreignField: "venta_id", as: "venta.pagos_a_terceros" } },
+		{ $lookup: { from: "Factura", localField: "venta._id", foreignField: "venta_id", as: "venta.facturas" } },
 		{ $unwind: { path: "$despacho_usuario" } },
-		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "venta.banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
