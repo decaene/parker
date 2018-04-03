@@ -527,7 +527,7 @@ router.post("/get_notificaciones",function(req,res){
         }else{
 			
 			var notificaciones_alreves = [];
-			for(var i = result.length-1; i>0; i--){
+			for(var i = result.length-1; i>=0; i--){
 				notificaciones_alreves.push(result[i]);
 			}
 			
