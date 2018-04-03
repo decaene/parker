@@ -2035,10 +2035,13 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							notificacion.mensaje	= "Cliente subió comprobante".
 							notificacion.status		= 1;
 							nueva_notificacion(notificacion);
+							enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 							notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 							nueva_notificacion(notificacion);
+							enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 							notificacion.recibe 	= ObjectId(req.body.venta.despacho_usuario._id);
 							nueva_notificacion(notificacion);
+							enviarNotificacion_Usuario(req.body.venta.despacho_usuario._id);
 							
 							var result_return      = {};
 							result_return.status   = "success";
@@ -2057,10 +2060,13 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 					notificacion.mensaje	= "Cliente subió comprobante".
 					notificacion.status		= 1;
 					nueva_notificacion(notificacion);
+					enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 					notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 					nueva_notificacion(notificacion);
+					enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 					notificacion.recibe 	= ObjectId(req.body.venta.despacho_usuario._id);
 					nueva_notificacion(notificacion);
+					enviarNotificacion_Usuario(req.body.venta.despacho_usuario._id);
 							
 					var result_return      = {};
 					result_return.status   = "success";
@@ -2097,8 +2103,10 @@ router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
 				notificacion.mensaje	= "Repartidor terminó el proceso".
 				notificacion.status		= 1;
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 				notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 				
 				var result_return      = {};
 				result_return.status   = "success";
@@ -2130,8 +2138,10 @@ router.post("/aprobar_operacion_con_comprobante",function(req,res){
 				notificacion.mensaje	= "Flujo de venta terminado.".
 				notificacion.status		= 1;
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 				notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 				
 				var result_return      = {};
 				result_return.status   = "success";
@@ -2163,8 +2173,10 @@ router.post("/aprobar_operacion_sin_comprobante",function(req,res){
 				notificacion.mensaje	= "Flujo de venta terminado.".
 				notificacion.status		= 1;
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 				notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 				
 				var result_return      = {};
 				result_return.status   = "success";
@@ -2215,10 +2227,13 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 							notificacion.mensaje	= "Facturas capturadas en esta venta.".
 							notificacion.status		= 1;
 							nueva_notificacion(notificacion);
+							enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 							notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 							nueva_notificacion(notificacion);
+							enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 							notificacion.recibe 	= ObjectId(req.body.venta.repartidor._id);
 							nueva_notificacion(notificacion);
+							enviarNotificacion_Usuario(req.body.venta.repartidor._id);
 					
 							var result_return      = {};
 							result_return.status   = "success";
@@ -2237,10 +2252,13 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 					notificacion.mensaje	= "Facturas capturadas en esta venta.".
 					notificacion.status		= 1;
 					nueva_notificacion(notificacion);
+					enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 					notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 					nueva_notificacion(notificacion);
+					enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 					notificacion.recibe 	= ObjectId(req.body.venta.repartidor._id);
 					nueva_notificacion(notificacion);
+					enviarNotificacion_Usuario(req.body.venta.repartidor._id);
 					
 					var result_return      = {};
 					result_return.status   = "success";
@@ -2276,8 +2294,10 @@ router.post("/actualizar_venta_comprobante_repartidor_en_transito",function(req,
 				notificacion.mensaje	= "Repartidor ha recibido el dinero.".
 				notificacion.status		= 1;
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 				notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 				
 				var result_return      = {};
 				result_return.status   = "success";
@@ -2324,8 +2344,10 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 						notificacion.mensaje	= "Facturas capturadas en esta venta.".
 						notificacion.status		= 1;
 						nueva_notificacion(notificacion);
+						enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 						notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 						nueva_notificacion(notificacion);
+						enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4");
 						
 						var result_return      = {};
 						result_return.status   = "success";
@@ -2818,6 +2840,7 @@ router.post("/nueva_venta",function(req,res){
 			notificacion.mensaje	= "Nueva venta registrada".
 			notificacion.status		= 1;
 			nueva_notificacion(notificacion);
+			enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57");
 			
             result.status  = "success";
 			result.message = "Venta agregada :)";
