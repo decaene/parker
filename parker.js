@@ -511,7 +511,7 @@ router.post("/get_notificaciones",function(req,res){
 		{ $lookup: { from: "Usuario", localField: "venta.cliente_id", foreignField: "_id", as: "venta.cliente" } },
 		{ $lookup: { from: "Usuario", localField: "venta.repartidor_id", foreignField: "_id", as: "venta.repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "venta.despacho_id", foreignField: "_id", as: "venta.despacho" } },
-		{ $lookup: { from: "Usuario", localField: "venta.despacho_usuario_id", foreignField: "_id", as: "venta.despacho_usuario" } },
+		{ $lookup: { from: "Usuario", localField: "venta.despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "venta.almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "venta._id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "venta._id", foreignField: "venta_id", as: "facturas" } },
