@@ -1039,7 +1039,7 @@ router.post("/autenticacion_mobile",function(req,res){
             res.send(res_err);
         }else{
 			collection.update(
-				{ '_id' : ObjectId(usuario_insertado.insertedIds[0]) }, 
+				{ '_id' : ObjectId(usuario_insertado[0]) }, 
 				{ $set: { 'registrationId' : req.body.data.registrationId } }, 
 				function(err, result2){  
 					if(err){
