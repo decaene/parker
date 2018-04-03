@@ -500,6 +500,7 @@ router.post("/get_ventas",function(req,res){
 
 router.post("/get_notificaciones",function(req,res){
     var collection    =  datb.collection('Notificacion');
+	console.log(req.body.usuario._id);
     collection.aggregate([
 		{ $match:  { "recibe" : ObjectId(req.body.usuario._id) } },
 		{ $lookup: { from: "Venta", localField: "venta", foreignField: "_id", as: "venta_info" } },
