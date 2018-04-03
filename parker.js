@@ -525,10 +525,16 @@ router.post("/get_notificaciones",function(req,res){
             res_err.message  = err;
             res.send(res_err);
         }else{
+			
+			var notificaciones_alreves = [];
+			for(var i = result.length-1; i>0; i--){
+				notificaciones_alreves.push(result[i]);
+			}
+			
             var res_data      = {};
             res_data.status   = "success";
             res_data.message  = "Notificaciones";
-            res_data.data     = result;
+            res_data.data     = notificaciones_alreves;
             res.send(res_data);
         }
     });
