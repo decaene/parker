@@ -152,8 +152,8 @@ function enviarNotificacion_Usuario(usuario_id, title_p, message_p){
 		if(result.length > 0){
 
 			for(var i = 0; i<result.length; i++){
-				if(result[i].registration_id != "" && result[i].registration_id != undefined){
-					reg_tokens.push(result[i].registration_id);
+				if(result[i].registrationId != "" && result[i].registrationId != undefined){
+					reg_tokens.push(result[i].registrationId);
 				}
 			}
 
