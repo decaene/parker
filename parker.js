@@ -516,7 +516,7 @@ router.post("/get_notificaciones",function(req,res){
 		{ $lookup: { from: "Pago_A_Tercero", localField: "venta._id", foreignField: "venta_id", as: "venta.pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "venta._id", foreignField: "venta_id", as: "venta.facturas" } },
 		{ $unwind: { path: "$despacho_usuario" } },
-		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "venta.banco" } }
+		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
