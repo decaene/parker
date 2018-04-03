@@ -1024,6 +1024,7 @@ router.post("/autenticacion_mobile",function(req,res){
         { $match : { "email" : email_login, "contrasena" : password_login } }
     ]).toArray(function(err, result){  
 		var usuario_insertado = result;
+		console.log(usuario_insertado);
         if(err){
             var res_err      = {};
             res_err.status   = "error";
