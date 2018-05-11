@@ -360,7 +360,7 @@ router.post("/get_ventas_vendedor",function(req,res){
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio_Cliente", localField: "servicio_id", foreignField: "_id", as: "servicio_cliente" } },
 		{ $unwind: { path: "$servicio_cliente" } },
-		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } }
+		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor_1" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor_2" } },
@@ -398,7 +398,7 @@ router.post("/get_ventas_despacho",function(req,res){
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio_Cliente", localField: "servicio_id", foreignField: "_id", as: "servicio_cliente" } },
 		{ $unwind: { path: "$servicio_cliente" } },
-		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } }
+		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor_1" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor_2" } },
@@ -436,7 +436,7 @@ router.post("/get_ventas_cliente",function(req,res){
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio_Cliente", localField: "servicio_id", foreignField: "_id", as: "servicio_cliente" } },
 		{ $unwind: { path: "$servicio_cliente" } },
-		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } }
+		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor_1" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor_2" } },
@@ -473,7 +473,7 @@ router.post("/get_ventas",function(req,res){
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio_Cliente", localField: "servicio_id", foreignField: "_id", as: "servicio_cliente" } },
 		{ $unwind: { path: "$servicio_cliente" } },
-		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } }
+		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor_1" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor_2" } },
