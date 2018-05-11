@@ -3034,6 +3034,7 @@ router.post("/nueva_venta",function(req,res){
 	delete req.body.venta.almacen;
 	delete req.body.venta.repartidor;
 	delete req.body.venta.servicio;
+	delete req.body.venta.empresa;
 	
     collection.insert(req.body.venta, function(err, result) {
         if(err){
