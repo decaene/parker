@@ -356,12 +356,13 @@ router.post("/get_ventas_vendedor",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
 		{ $match:  { "vendedor_id" : ObjectId(req.body.usuario._id) } },
-		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
-		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor1" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor2" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_3_id", foreignField: "_id", as: "vendedor3" } },
 		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
 		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
@@ -369,8 +370,7 @@ router.post("/get_ventas_vendedor",function(req,res){
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $unwind: { path: "$despacho_usuario" } },
-		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -392,21 +392,21 @@ router.post("/get_ventas_despacho",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
 		{ $match:  { "despacho_usuario_id" : ObjectId(req.body.usuario._id) } },
-		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
-		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
-		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },		
+		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor1" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor2" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_3_id", foreignField: "_id", as: "vendedor3" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
 		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $unwind: { path: "$despacho_usuario" } },
-		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -428,21 +428,21 @@ router.post("/get_ventas_cliente",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
 		{ $match:  { "cliente_id" : ObjectId(req.body.usuario._id) } },
-		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
-		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
-		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },		
+		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor1" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor2" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_3_id", foreignField: "_id", as: "vendedor3" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
 		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
-		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } }, 
+		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $unwind: { path: "$despacho_usuario" } },
-		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -463,12 +463,13 @@ router.post("/get_ventas_cliente",function(req,res){
 router.post("/get_ventas",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
-		{ $lookup: { from: "Configuracion", localField: "configuracion_id", foreignField: "_id", as: "configuracion" } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
-		{ $lookup: { from: "Usuario", localField: "vendedor_id", foreignField: "_id", as: "vendedor" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor1" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor2" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_3_id", foreignField: "_id", as: "vendedor3" } },
 		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
 		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
@@ -476,8 +477,7 @@ router.post("/get_ventas",function(req,res){
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $unwind: { path: "$despacho_usuario" } },
-		{ $lookup: { from: "Banco", localField: "despacho_usuario.banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
