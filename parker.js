@@ -2814,7 +2814,7 @@ router.post("/nuevo_servicio",function(req,res){
 
 router.post("/nueva_empresa_despacho",function(req,res){
     var collection					=  datb.collection('Empresas_Despacho');
-	req.body.empresa.cliente_id 	=  ObjectId(req.body.empresa.despacho_id);
+	req.body.empresa.despacho_id 	=  ObjectId(req.body.empresa.despacho_id);
     collection.insert(req.body.empresa, function(err, result) {
         if(err){
             var res_err      = {};
