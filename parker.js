@@ -581,6 +581,27 @@ router.post("/get_servicios_cliente",function(req,res){
     });
 });
 
+router.post("/get_empresas_despacho",function(req,res){
+    var collection    =  datb.collection('Empresas_Despacho');
+    collection.aggregate([
+		{ $match:  { "despacho_id" : ObjectId(req.body.despacho._id) } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Empresas";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_configuraciones",function(req,res){
     var collection    =  datb.collection('Configuracion');
     collection.aggregate([
@@ -1677,6 +1698,28 @@ router.post("/eliminar_servicio",function(req,res){
     });
 });
 
+router.post("/eliminar_empresa_despacho",function(req,res){
+    var collection	=  datb.collection('Empresas_Despacho');
+    var empresa_id	=  ObjectId(req.body.empresa._id);
+    collection.deleteOne(
+        { '_id' : empresa_id },
+        function(err, result){  
+            if(err){
+                var res_err      = {};
+                res_err.status   = "error";
+                res_err.error    = err;
+                res_err.message  = err;
+                res.send(res_err);
+            }
+            else{
+                var res_data    = {};
+                res_data.status  = "success";
+                res_data.message = "Empresa eliminada :)";
+                res.send(res_data);
+            }
+    });
+});
+
 router.post("/actualizar_status_empresa",function(req,res){
     var collection	=  datb.collection('Empresa');
     var empresa_id	=  ObjectId(req.body.empresa._id);
@@ -2435,6 +2478,30 @@ router.post("/actualizar_servicio",function(req,res){
 		});
 });
 
+router.post("/actualizar_empresa_despacho",function(req,res){
+		var collection					=  datb.collection('Empresas_Despacho');
+		var empresa_id	                =  ObjectId(req.body.empresa._id);
+		collection.update(
+					{ '_id' : empresa_id }, 
+					{ $set: { 	"descripcion" : req.body.empresa.descripcion } }, 
+					function(err, result2){  
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}
+			else{			
+				
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Empresa actualizada :)";
+				res.send(result_return);
+			}
+		});
+});
+
 router.post("/actualizar_tracker",function(req,res){
 		var collection					=  datb.collection('Tracker');
 		var tracker_id	                =  ObjectId(req.body.tracker._id);
@@ -2740,6 +2807,25 @@ router.post("/nuevo_servicio",function(req,res){
         else{
             result.status  = "success";
 			result.message = "Servicio agregado :)";
+			res.send(result);
+        }
+    });
+});
+
+router.post("/nueva_empresa_despacho",function(req,res){
+    var collection					=  datb.collection('Empresas_Despacho');
+	req.body.empresa.cliente_id 	=  ObjectId(req.body.empresa.despacho_id);
+    collection.insert(req.body.empresa, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            result.status  = "success";
+			result.message = "Empresa agregada :)";
 			res.send(result);
         }
     });
