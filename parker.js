@@ -1700,7 +1700,6 @@ router.post("/eliminar_usuario_de_almacen",function(req,res){
 router.post("/eliminar_servicio",function(req,res){
     var collection	=  datb.collection('Servicio');
     var servicio_id	=  ObjectId(req.body.servicio._id);
-	var servicio_servicio_id	=  ObjectId(req.body.servicio.servicio[0]._id);
     collection.deleteOne(
         { '_id' : servicio_id },
         function(err, result){  
@@ -1714,7 +1713,7 @@ router.post("/eliminar_servicio",function(req,res){
             else{
 				collection 		 =  datb.collection("Servicio_Cliente");
 				collection.remove(
-					{ 'servicio_id' : servicio_servicio_id },
+					{ 'servicio_id' : servicio_id },
 					function(err, result){  
 						if(err){
 							var res_err 	 = {};
