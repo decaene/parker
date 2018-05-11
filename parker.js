@@ -3021,7 +3021,7 @@ router.post("/nueva_venta",function(req,res){
 	var solicitud 		= "Captura la información de pago para este folio y continuar con el proceso.";
 	
 	var correo_vendedor	= req.body.venta.vendedor_1.email;
-	var usuario_v		= req.body.venta.vendedor_1.nombre + " " + req.body.venta.vendedor.apellido;
+	var usuario_v		= req.body.venta.vendedor_1.nombre + " " + req.body.venta.vendedor_1.apellido;
 	var mensaje_v 		= "Nueva venta registrada";
 	var solicitud_v 	= "Envíamos un correo al cliente para la resolución del pago de este folio.";
 	
@@ -3051,14 +3051,14 @@ router.post("/nueva_venta",function(req,res){
 			
 			if(req.body.venta.vendedor_2 != undefined){
 				correo_vendedor	= req.body.venta.vendedor_2.email;
-				usuario_v		= req.body.venta.vendedor_2.nombre + " " + req.body.venta.vendedor.apellido;
+				usuario_v		= req.body.venta.vendedor_2.nombre + " " + req.body.venta.vendedor_2.apellido;
 				mensaje_v 		= "Nueva venta registrada";
 				solicitud_v 	= "Envíamos un correo al cliente para la resolución del pago de este folio.";
 				enviar_correo(correo_vendedor, usuario_v, mensaje_v, solicitud_v);
 			}
 			if(req.body.venta.vendedor_3 != undefined){
 				correo_vendedor	= req.body.venta.vendedor_3.email;
-				usuario_v		= req.body.venta.vendedor_3.nombre + " " + req.body.venta.vendedor.apellido;
+				usuario_v		= req.body.venta.vendedor_3.nombre + " " + req.body.venta.vendedor_3.apellido;
 				mensaje_v 		= "Nueva venta registrada";
 				solicitud_v 	= "Envíamos un correo al cliente para la resolución del pago de este folio.";
 				enviar_correo(correo_vendedor, usuario_v, mensaje_v, solicitud_v);
