@@ -560,8 +560,28 @@ router.post("/get_usuarios",function(req,res){
     });
 });
 
-router.post("/get_servicios_cliente",function(req,res){
+router.post("/get_servicios",function(req,res){
     var collection    =  datb.collection('Servicio');
+    collection.aggregate([
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Servicios";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
+router.post("/get_servicios_cliente",function(req,res){
+    var collection    =  datb.collection('Servicio_Cliente');
     collection.aggregate([
 		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) } }
     ]).toArray(function(err, result){  
@@ -1698,6 +1718,28 @@ router.post("/eliminar_servicio",function(req,res){
     });
 });
 
+router.post("/eliminar_servicio_cliente",function(req,res){
+    var collection	=  datb.collection('Servicio_Cliente');
+    var servicio_id	=  ObjectId(req.body.servicio._id);
+    collection.deleteOne(
+        { '_id' : servicio_id },
+        function(err, result){  
+            if(err){
+                var res_err      = {};
+                res_err.status   = "error";
+                res_err.error    = err;
+                res_err.message  = err;
+                res.send(res_err);
+            }
+            else{
+                var res_data    = {};
+                res_data.status  = "success";
+                res_data.message = "Servicio eliminado :)";
+                res.send(res_data);
+            }
+    });
+});
+
 router.post("/eliminar_empresa_despacho",function(req,res){
     var collection	=  datb.collection('Empresas_Despacho');
     var empresa_id	=  ObjectId(req.body.empresa._id);
@@ -2795,6 +2837,24 @@ router.post("/nuevo_tracker",function(req,res){
 
 router.post("/nuevo_servicio",function(req,res){
     var collection					=  datb.collection('Servicio');
+    collection.insert(req.body.servicio, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            result.status  = "success";
+			result.message = "Servicio agregado :)";
+			res.send(result);
+        }
+    });
+});
+
+router.post("/nuevo_servicio_cliente",function(req,res){
+    var collection					=  datb.collection('Servicio_Cliente');
 	req.body.servicio.cliente_id 	=  ObjectId(req.body.servicio.cliente_id);
     collection.insert(req.body.servicio, function(err, result) {
         if(err){
