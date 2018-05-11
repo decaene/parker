@@ -2995,17 +2995,21 @@ router.post("/nuevo_almacen",function(req,res){
 router.post("/nueva_venta",function(req,res){
 	
     var collection						=  datb.collection('Venta');
-	req.body.venta.vendedor_id 			=  ObjectId(req.body.venta.vendedor._id);
+	req.body.venta.vendedor_1_id		=  ObjectId(req.body.venta.vendedor_1._id);
+	if(req.body.venta.vendedor_2 != undefined){
+		req.body.venta.vendedor_2_id		=  ObjectId(req.body.venta.vendedor_2._id);
+	}
+	if(req.body.venta.vendedor_3 != undefined){
+		req.body.venta.vendedor_3_id		=  ObjectId(req.body.venta.vendedor_3._id);
+	}
 	req.body.venta.cliente_id 			=  ObjectId(req.body.venta.cliente._id);
 	req.body.venta.servicio_id 			=  ObjectId(req.body.venta.servicio._id);
 	req.body.venta.despacho_id 			=  ObjectId(req.body.venta.despacho._id);
-	req.body.venta.despacho_usuario_id 	=  ObjectId(req.body.venta.despacho_usuario._id);
 	req.body.venta.almacen_id 			=  ObjectId(req.body.venta.almacen._id);
 	req.body.venta.repartidor_id		=  ObjectId(req.body.venta.repartidor._id);
 	req.body.venta.usuario_id 			=  ObjectId(req.body.venta.usuario_id);
 	req.body.venta.tipo_venta_id		=  ObjectId(req.body.venta.tipo_venta_id);
 	req.body.venta.tipo_pago_id			=  ObjectId(req.body.venta.tipo_pago._id);
-	req.body.venta.configuracion_id		=  ObjectId(req.body.venta.configuracion_id);
 	
 	// DATOS DE CORREO
 	var correo_cliente 	= req.body.venta.cliente.email;
@@ -3018,7 +3022,9 @@ router.post("/nueva_venta",function(req,res){
 	var mensaje_v 		= "Nueva venta registrada";
 	var solicitud_v 	= "Envíamos un correo al cliente para la resolución del pago de este folio.";
 	
-	delete req.body.venta.vendedor;
+	delete req.body.venta.vendedor_1;
+	delete req.body.venta.vendedor_2;
+	delete req.body.venta.vendedor_3;
 	delete req.body.venta.cliente;
 	delete req.body.venta.despacho;
 	delete req.body.venta.despacho_usuario;
