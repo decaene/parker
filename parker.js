@@ -583,7 +583,8 @@ router.post("/get_servicios",function(req,res){
 router.post("/get_servicios_cliente",function(req,res){
     var collection    =  datb.collection('Servicio_Cliente');
     collection.aggregate([
-		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) } }
+		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) } },
+		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -2856,6 +2857,8 @@ router.post("/nuevo_servicio",function(req,res){
 router.post("/nuevo_servicio_cliente",function(req,res){
     var collection					=  datb.collection('Servicio_Cliente');
 	req.body.servicio.cliente_id 	=  ObjectId(req.body.servicio.cliente_id);
+	req.body.servicio.servicio_id 	=  ObjectId(req.body.servicio.servicio._id);
+	delete req.body.servicio.servicio; 
     collection.insert(req.body.servicio, function(err, result) {
         if(err){
             var res_err      = {};
