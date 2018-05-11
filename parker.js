@@ -1700,6 +1700,7 @@ router.post("/eliminar_usuario_de_almacen",function(req,res){
 router.post("/eliminar_servicio",function(req,res){
     var collection	=  datb.collection('Servicio');
     var servicio_id	=  ObjectId(req.body.servicio._id);
+	var servicio_servicio_id	=  ObjectId(req.body.servicio.servicio[0]._id);
     collection.deleteOne(
         { '_id' : servicio_id },
         function(err, result){  
@@ -1711,10 +1712,24 @@ router.post("/eliminar_servicio",function(req,res){
                 res.send(res_err);
             }
             else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Servicio eliminado :)";
-                res.send(res_data);
+				collection 		 =  datb.collection("Servicio_Cliente");
+				collection.remove(
+					{ 'servicio_id' : servicio_servicio_id },
+					function(err, result){  
+						if(err){
+							var res_err 	 = {};
+							res_err.status   = "error";
+							res_err.error 	 = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}
+						else{
+							var res_data    = {};
+							res_data.status  = "success";
+							res_data.message = "Servicio eliminado :)";
+							res.send(res_data);
+						}
+				});                
             }
     });
 });
