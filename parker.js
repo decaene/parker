@@ -941,7 +941,7 @@ router.post("/get_despachos",function(req,res){
     var collection    =  datb.collection('Despacho');
     collection.aggregate([
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
-		{ $lookup: { from: "Empresas_Despacho", localField: "despacho_id", foreignField: "_id", as: "empresas" } }
+		{ $lookup: { from: "Empresas_Despacho", localField: "_id", foreignField: "despacho_id", as: "empresas" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
