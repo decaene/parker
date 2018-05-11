@@ -3011,6 +3011,8 @@ router.post("/nueva_venta",function(req,res){
 	req.body.venta.usuario_id 			=  ObjectId(req.body.venta.usuario_id);
 	req.body.venta.tipo_venta_id		=  ObjectId(req.body.venta.tipo_venta_id);
 	req.body.venta.tipo_pago_id			=  ObjectId(req.body.venta.tipo_pago._id);
+	req.body.venta.tipo_pago_id			=  ObjectId(req.body.venta.tipo_pago._id);
+	req.body.venta.empresa_id			=  ObjectId(req.body.venta.empresa._id);
 	
 	// DATOS DE CORREO
 	var correo_cliente 	= req.body.venta.cliente.email;
