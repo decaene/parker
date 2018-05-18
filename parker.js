@@ -2294,6 +2294,10 @@ router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
 		{ '_id' : venta_id }, 
 		{ $set: { 	"comprobante_repartidor_cliente" : req.body.venta.comprobante_repartidor_cliente,
 					"comprobante_repartidor_despacho" : req.body.venta.comprobante_repartidor_despacho,
+					"repartidor_entrega_cliente" : req.body.venta.repartidor_entrega_cliente,
+					"monto_repartidor_entrega_cliente" : req.body.venta.monto_repartidor_entrega_cliente,
+					"repartidor_entrega_almacen" : req.body.venta.repartidor_entrega_almacen,
+					"monto_repartidor_entrega_almacen" : req.body.venta.monto_repartidor_entrega_almacen,
 					"tipo_venta_id" : ObjectId("5abe9a006484321304856cac") } }, 
 		function(err, result2){  
 			if(err){
