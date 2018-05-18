@@ -524,10 +524,12 @@ router.post("/get_ventas_group",function(req,res){
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{
-			$addFields: {
+			$project: {
 				year: {$year: '$fecha_alta_f'},
 				month: {$month: '$fecha_alta_f'},
 				dayOfMonth: {$dayOfMonth: '$fecha_alta_f'}
+				document: "$$ROOT"
+
 			}
 		},
 		{
