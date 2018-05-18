@@ -523,25 +523,22 @@ router.post("/get_ventas_group",function(req,res){
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
-		{
-			$project: {
-				year: {$year: '$fecha_alta_f'},
-				month: {$month: '$fecha_alta_f'},
-				dayOfMonth: {$dayOfMonth: '$fecha_alta_f'},
-				document: "$$ROOT"
+		// {
+			// $project: {
+				// year: {$year: '$fecha_alta_f'},
+				// month: {$month: '$fecha_alta_f'},
+				// dayOfMonth: {$dayOfMonth: '$fecha_alta_f'},
+				// document: "$$ROOT"
 
-			}
-		},
+			// }
+		// },
 		{
 			$group: {
-				_id: {
-					year: '$year',
-					month: '$month',
-					dayOfMonth: '$dayOfMonth'
+				"_id": {
+				   "year": { "$substr": [ "$fecha_alta_f", 7, 4 ] },
+				   "month": { "$substr": [ "$fecha_alta_f", 4, 2 ] }
 				},
-				count: {
-					$sum: 1
-				}
+				"count": { "$sum": 1 }
 			}
 		}
     ]).toArray(function(err, result){  
