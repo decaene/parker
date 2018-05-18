@@ -372,7 +372,29 @@ router.post("/get_ventas_vendedor",function(req,res){
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Empresas_Despacho", localField: "empresa_id", foreignField: "_id", as: "empresa" } },
+		// { $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
+		// {
+			// $project: {
+				// year: {$year: '$fecha_alta_f'},
+				// month: {$month: '$fecha_alta_f'},
+				// dayOfMonth: {$dayOfMonth: '$fecha_alta_f'},
+				// document: "$$ROOT"
+
+			// }
+		// },
+		{
+			$group: {
+				"_id": {
+				   "year": { "$substr": [ "$fecha_alta", 6, 4 ] },
+				   "month": { "$substr": [ "$fecha_alta", 3, 2 ] }
+				},
+				"records": {
+					$push: "$$ROOT"
+				},
+				"count": { "$sum": 1 }
+			}
+		}
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -410,7 +432,29 @@ router.post("/get_ventas_despacho",function(req,res){
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Empresas_Despacho", localField: "empresa_id", foreignField: "_id", as: "empresa" } },
+		// { $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
+		// {
+			// $project: {
+				// year: {$year: '$fecha_alta_f'},
+				// month: {$month: '$fecha_alta_f'},
+				// dayOfMonth: {$dayOfMonth: '$fecha_alta_f'},
+				// document: "$$ROOT"
+
+			// }
+		// },
+		{
+			$group: {
+				"_id": {
+				   "year": { "$substr": [ "$fecha_alta", 6, 4 ] },
+				   "month": { "$substr": [ "$fecha_alta", 3, 2 ] }
+				},
+				"records": {
+					$push: "$$ROOT"
+				},
+				"count": { "$sum": 1 }
+			}
+		}
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -448,7 +492,29 @@ router.post("/get_ventas_cliente",function(req,res){
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } }
+		{ $lookup: { from: "Empresas_Despacho", localField: "empresa_id", foreignField: "_id", as: "empresa" } },
+		// { $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
+		// {
+			// $project: {
+				// year: {$year: '$fecha_alta_f'},
+				// month: {$month: '$fecha_alta_f'},
+				// dayOfMonth: {$dayOfMonth: '$fecha_alta_f'},
+				// document: "$$ROOT"
+
+			// }
+		// },
+		{
+			$group: {
+				"_id": {
+				   "year": { "$substr": [ "$fecha_alta", 6, 4 ] },
+				   "month": { "$substr": [ "$fecha_alta", 3, 2 ] }
+				},
+				"records": {
+					$push: "$$ROOT"
+				},
+				"count": { "$sum": 1 }
+			}
+		}
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
