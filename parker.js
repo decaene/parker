@@ -522,7 +522,8 @@ router.post("/get_ventas_group",function(req,res){
 		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
 		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
 		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
-		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
+		{ $lookup: { from: "Empresas_Despacho", localField: "empresa_id", foreignField: "_id", as: "empresa" } },
+		// { $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		// {
 			// $project: {
 				// year: {$year: '$fecha_alta_f'},
