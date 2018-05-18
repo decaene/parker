@@ -525,9 +525,9 @@ router.post("/get_ventas_group",function(req,res){
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{
 			$addFields: {
-				year: {$year: $fecha_alta_f},
-				month: {$month: $fecha_alta_f},
-				dayOfMonth: {$dayOfMonth: $fecha_alta_f}
+				year: {$year: '$fecha_alta_f'},
+				month: {$month: '$fecha_alta_f'},
+				dayOfMonth: {$dayOfMonth: '$fecha_alta_f'}
 			}
 		},
 		{
