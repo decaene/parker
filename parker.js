@@ -538,6 +538,9 @@ router.post("/get_ventas_group",function(req,res){
 				   "year": { "$substr": [ "$fecha_alta", 6, 3 ] },
 				   "month": { "$substr": [ "$fecha_alta", 3, 1 ] }
 				},
+				"records": {
+					$push: "$$ROOT"
+				},
 				"count": { "$sum": 1 }
 			}
 		}
