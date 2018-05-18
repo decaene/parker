@@ -2403,7 +2403,15 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 		{ '_id' : venta_id }, 
 		{ $set: { 	"tipo_venta_id" 		: ObjectId("5ab2e34a8fd9b9c63485baa0"),
 					"fecha_recojo" 			: req.body.venta.fecha_recojo,
-					"estatus_facturas"		: req.body.venta.estatus_facturas// 1 - Capturadas completas , 2 - Faltan por subir
+					"estatus_facturas"		: req.body.venta.estatus_facturas, 
+					// 1 - Capturadas completas , 2 - Faltan por subir
+					"pago_en_efectivo"		: req.body.venta.pago_en_efectivo,
+					"monto_en_efectivo"		: req.body.venta.monto_en_efectivo,
+					"pago_en_transferencia"	: req.body.venta.pago_en_transferencia,
+					"monto_en_transferencia"	: req.body.venta.monto_en_transferencia,
+					"pago_en_cheque"		: req.body.venta.pago_en_cheque,
+					"monto_en_cheque"		: req.body.venta.monto_en_cheque,
+					"numero_de_cheque"		: req.body.venta.numero_de_cheque
 		} }, 
 		function(err, result2){  
 			if(err){
