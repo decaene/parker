@@ -535,8 +535,8 @@ router.post("/get_ventas_group",function(req,res){
 		{
 			$group: {
 				"_id": {
-				   "year": { "$substr": [ "$fecha_alta", 7, 4 ] },
-				   "month": { "$substr": [ "$fecha_alta", 4, 2 ] }
+				   "year": { "$substr": [ "$fecha_alta", 6, 3 ] },
+				   "month": { "$substr": [ "$fecha_alta", 3, 1 ] }
 				},
 				"count": { "$sum": 1 }
 			}
