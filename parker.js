@@ -503,6 +503,62 @@ router.post("/get_ventas",function(req,res){
     });
 });
 
+router.post("/get_ventas_group",function(req,res){
+    var collection    =  datb.collection('Venta');
+    collection.aggregate([
+		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
+		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
+		{ $lookup: { from: "Servicio_Cliente", localField: "servicio_id", foreignField: "_id", as: "servicio_cliente" } },
+		{ $unwind: { path: "$servicio_cliente" } },
+		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
+		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor_1" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor_2" } },
+		{ $lookup: { from: "Usuario", localField: "vendedor_3_id", foreignField: "_id", as: "vendedor_3" } },
+		{ $lookup: { from: "Usuario", localField: "cliente_id", foreignField: "_id", as: "cliente" } },
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
+		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
+		{ $lookup: { from: "Usuario", localField: "despacho_usuario_id", foreignField: "_id", as: "despacho_usuario" } },
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $lookup: { from: "Pago_A_Tercero", localField: "_id", foreignField: "venta_id", as: "pagos_a_terceros" } },
+		{ $lookup: { from: "Factura", localField: "_id", foreignField: "venta_id", as: "facturas" } },
+		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
+		{
+			$addFields: {
+				year: {$year: fecha_alta_f},
+				month: {$month: fecha_alta_f},
+				dayOfMonth: {$dayOfMonth: fecha_alta_f}
+			}
+		},
+		{
+			$group: {
+				_id: {
+					year: '$year',
+					month: '$month',
+					dayOfMonth: '$dayOfMonth'
+				},
+				count: {
+					$sum: 1
+				}
+			}
+		}
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Ventas";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_notificaciones",function(req,res){
     var collection    =  datb.collection('Notificacion');
 	console.log(ObjectId(req.body.usuario._id));
