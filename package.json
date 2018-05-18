@@ -22,6 +22,7 @@
     "jwt-simple": "^0.5.1",
     "kerberos": "~0.0.17",
     "moment": "^2.19.2",
+    "mongo": "^0.1.0",
     "mongodb": "^2.2.33",
     "mongoose": "^4.13.4",
     "mongoose-pagination": "^1.0.0",
