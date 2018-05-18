@@ -527,7 +527,7 @@ router.post("/get_ventas_group",function(req,res){
 			$project: {
 				year: {$year: '$fecha_alta_f'},
 				month: {$month: '$fecha_alta_f'},
-				dayOfMonth: {$dayOfMonth: '$fecha_alta_f'}
+				dayOfMonth: {$dayOfMonth: '$fecha_alta_f'},
 				document: "$$ROOT"
 
 			}
