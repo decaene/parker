@@ -3121,9 +3121,9 @@ router.post("/nuevo_despacho",function(req,res){
 
 router.post("/nuevo_almacen",function(req,res){
     var collection					=  datb.collection('Almacen');
-	req.body.almacen.usuario_alta 	=  ObjectId(req.body.almacen.usuario_alta);
+	req.body.almacen.usuario_alta 	=  ObjectId(req.body.almacen.usuario_id);
 	// req.body.almacen.ciudad_id		=  ObjectId(req.body.almacen.ciudad._id);
-	// delete req.body.almacen.ciudad;
+	delete req.body.almacen.usuario_id;
     collection.insert(req.body.almacen, function(err, result) {
         if(err){
             var res_err      = {};
