@@ -1095,6 +1095,7 @@ router.post("/get_despachos",function(req,res){
 router.post("/get_almacenes",function(req,res){
     var collection    =  datb.collection('Almacen');
     collection.aggregate([
+		{ $match:  { "status" : { $ne: 3 } } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } }
     ]).toArray(function(err, result){  
         if(err){
@@ -2783,23 +2784,27 @@ router.post("/eliminar_empresa",function(req,res){
 router.post("/eliminar_almacen",function(req,res){
     var collection	=  datb.collection('Almacen');
     var almacen_id	=  ObjectId(req.body.almacen._id);
-    collection.deleteOne(
-        { '_id' : almacen_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Almacén eliminado :)";
-                res.send(res_data);
-            }
-    });
+	// delete req.body.almacen.ciudad;
+	collection.update(
+				{ '_id' : almacen_id }, 
+				{ $set: { 	
+							"status" : 3
+				} }, 
+				function(err, result2){  
+					if(err){
+						var res_err      = {};
+						res_err.status   = "error";
+						res_err.error    = err;
+						res_err.message  = err;
+						res.send(res_err);
+					}else{	
+			
+						var result_return      = {};
+						result_return.status   = "success";
+						result_return.message  = "Almacén eliminado :)";
+						res.send(result_return);
+					}
+	});
 });
 
 router.post("/eliminar_ruta",function(req,res){
