@@ -2135,15 +2135,17 @@ router.post("/actualizar_despacho",function(req,res){
 router.post("/actualizar_almacen",function(req,res){
 		var collection					=  datb.collection('Almacen');
 		var almacen_id	                =  ObjectId(req.body.almacen._id);
-		req.body.almacen.ciudad_id		=  ObjectId(req.body.almacen.ciudad._id);
-		delete req.body.almacen.ciudad;
+		// req.body.almacen.ciudad_id		=  ObjectId(req.body.almacen.ciudad._id);
+		// delete req.body.almacen.ciudad;
 		collection.update(
 					{ '_id' : almacen_id }, 
-					{ $set: { 	"balance_real" : req.body.almacen.balance_real,
-								"balance_teorico" : req.body.almacen.balance_teorico, 
-								"discrepancia_balance" : req.body.almacen.discrepancia_balance,
-								"nombre" : req.body.almacen.nombre,
-								"ciudad_id" : req.body.almacen.ciudad_id } }, 
+					{ $set: { 	
+								// "balance_real" : req.body.almacen.balance_real,
+								// "balance_teorico" : req.body.almacen.balance_teorico, 
+								// "discrepancia_balance" : req.body.almacen.discrepancia_balance,
+								"nombre" : req.body.almacen.nombre
+								// "ciudad_id" : req.body.almacen.ciudad_id 
+					} }, 
 					function(err, result2){  
 						if(err){
 							var res_err      = {};
@@ -3120,8 +3122,8 @@ router.post("/nuevo_despacho",function(req,res){
 router.post("/nuevo_almacen",function(req,res){
     var collection					=  datb.collection('Almacen');
 	req.body.almacen.usuario_alta 	=  ObjectId(req.body.almacen.usuario_alta);
-	req.body.almacen.ciudad_id		=  ObjectId(req.body.almacen.ciudad._id);
-	delete req.body.almacen.ciudad;
+	// req.body.almacen.ciudad_id		=  ObjectId(req.body.almacen.ciudad._id);
+	// delete req.body.almacen.ciudad;
     collection.insert(req.body.almacen, function(err, result) {
         if(err){
             var res_err      = {};
