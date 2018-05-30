@@ -896,7 +896,7 @@ router.post("/get_usuarios_repartidores",function(req,res){
 router.post("/get_usuarios_empleados",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { $or: [ {"tipo_usuario_id" : ObjectId("5aa824b78b44e9f4307f1995") } , {"tipo_usuario_id" : ObjectId("5ab2edb68fd9b9c63485baa3") } ] } },
+		{ $match:  { "tipo_usuario_id" : ObjectId("5aa824b78b44e9f4307f1995") } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
@@ -1552,9 +1552,9 @@ router.post("/actualizar_usuario",function(req,res){
 			console.log("Empleado - Nuevo Usuario");
 			var tipo_empleado_id = req.body.data.tipo_empleado._id;
 			req.body.data.tipo_empleado_id	= new ObjectId(req.body.data.tipo_empleado._id);
-			if(tipo_empleado_id === "5aa832488b44e9f4307f199a"){
-				req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
-			}
+			// if(tipo_empleado_id === "5aa832488b44e9f4307f199a"){
+				// req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
+			// }
 			delete req.body.data.banco;
 			delete req.body.data.tipo_empleado;
 			delete req.body.data.tipo_comision;
@@ -1605,12 +1605,6 @@ router.post("/actualizar_usuario",function(req,res){
 								"nombre_beneficiario" : req.body.data.nombre_beneficiario,
 								"ciudad_id" : req.body.data.ciudad_id,
 								"sueldo_base" : req.body.data.sueldo_base,
-								"tipo_comision_id" : req.body.data.tipo_comision_id,
-								"f_personalizada_prctg" : req.body.data.f_personalizada_prctg,
-								"v_personalizada_minimo" : req.body.data.v_personalizada_minimo, 
-								"v_personalizada_maximo" : req.body.data.v_personalizada_maximo,
-								"v_personalizada_minimo_prctg" : req.body.data.v_personalizada_minimo_prctg,
-								"v_personalizada_maximo_prctg" : req.body.data.v_personalizada_maximo_prctg,
 								"supervisor_email" : req.body.data.supervisor_email
 							} 
 					}, 
