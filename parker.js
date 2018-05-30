@@ -1420,9 +1420,9 @@ router.post("/nuevo_usuario_empresa",function(req,res){
 			console.log("Empleado - Nuevo Usuario");
 			var tipo_empleado_id = req.body.data.tipo_empleado._id;
 			req.body.data.tipo_empleado_id	= new ObjectId(req.body.data.tipo_empleado._id);
-			if(tipo_empleado_id === "5aa832488b44e9f4307f199a"){
-				req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
-			}
+			// if(tipo_empleado_id === "5aa832488b44e9f4307f199a"){
+				// req.body.data.tipo_comision_id	= new ObjectId(req.body.data.tipo_comision._id);
+			// }
 			delete req.body.data.banco;
 			delete req.body.data.tipo_empleado;
 			delete req.body.data.tipo_comision;
