@@ -2113,8 +2113,7 @@ router.post("/actualizar_despacho",function(req,res){
 		collection.update(
 					{ '_id' : despacho_id }, 
 					{ $set: { 	"codigo" : req.body.despacho.codigo,
-								"nombre" : req.body.despacho.nombre, 
-								"comision" : req.body.despacho.comision,
+								"nombre" : req.body.despacho.nombre,
 								"ciudad_id" : req.body.despacho.ciudad_id } }, 
 					function(err, result2){  
 						if(err){
