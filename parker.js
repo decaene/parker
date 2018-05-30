@@ -873,7 +873,7 @@ router.post("/get_usuarios_despacho",function(req,res){
 router.post("/get_usuarios_repartidores",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "tipo_usuario_id" : ObjectId("5b0d3cd8a2e7ef74c47ba6d9") } },
+		{ $match:  { "tipo_empleado_id" : ObjectId("5aa8324e8b44e9f4307f199b") } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
     ]).toArray(function(err, result){  
