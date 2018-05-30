@@ -1454,6 +1454,13 @@ router.post("/nuevo_usuario_empresa",function(req,res){
 			delete req.body.data.ciudad;
 			delete req.body.data.tipo_usuario;
 		break;
+		case '5b0d3cd8a2e7ef74c47ba6d9':
+			console.log("Almacen - Nuevo Usuario");
+			req.body.data.almacen_id = new ObjectId(req.body.data.almacen_id);
+			delete req.body.data.almacen;
+			delete req.body.data.ciudad;
+			delete req.body.data.tipo_usuario;
+		break;
 	}
 
     collection.find( { "email" : email_register } ).toArray(function(err, result){  
