@@ -873,13 +873,9 @@ router.post("/get_usuarios_despacho",function(req,res){
 router.post("/get_usuarios_repartidores",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "almacen_id" : ObjectId(req.body.almacen._id) , "tipo_usuario_id" : ObjectId("5ab2edb68fd9b9c63485baa3") } },
+		{ $match:  { "tipo_usuario_id" : ObjectId("5b0d3cd8a2e7ef74c47ba6d9") } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
-		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
-		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
-		{ $lookup: { from: "Tipo_Comision", localField: "tipo_comision_id", foreignField: "_id", as: "tipo_comision" } },
-		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
