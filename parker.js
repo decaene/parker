@@ -3317,8 +3317,8 @@ router.post("/get_movimientos",function(req,res){
     var collection    =  datb.collection('Movimiento');
     collection.aggregate([
 		{ $match :  { "fecha_alta": req.body.data.fecha_alta , "usuario_alta" : ObjectId(req.body.data.usuario_id) } },
-		{ $lookup: { from: "Almacen", localField: "_id", foreignField: "empresa_id", as: "usuarios" } },
-		{ $lookup: { from: "Usuario", localField: "_id", foreignField: "empresa_id", as: "usuarios" } },
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
