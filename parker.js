@@ -3329,7 +3329,7 @@ router.post("/get_movimientos",function(req,res){
 router.post("/get_tipo_egresos",function(req,res){
     var collection    =  datb.collection('Tipo_Egreso');
     collection.aggregate([
-		{ $match :  { "tipo": eq.body.data.tipo } }
+		{ $match :  { "tipo": req.body.data.tipo } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -3350,7 +3350,7 @@ router.post("/get_tipo_egresos",function(req,res){
 router.post("/get_tipo_ingresos",function(req,res){
     var collection    =  datb.collection('Tipo_Ingreso');
     collection.aggregate([
-		{ $match :  { "tipo": eq.body.data.tipo } }
+		{ $match :  { "tipo": req.body.data.tipo } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
