@@ -3326,5 +3326,47 @@ router.post("/get_movimientos",function(req,res){
     });
 });
 
+router.post("/get_tipo_egresos",function(req,res){
+    var collection    =  datb.collection('Tipo_Egreso');
+    collection.aggregate([
+		{ $match :  { "tipo": eq.body.data.tipo } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Tipo_Egreso";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
+router.post("/get_tipo_ingresos",function(req,res){
+    var collection    =  datb.collection('Tipo_Ingreso');
+    collection.aggregate([
+		{ $match :  { "tipo": eq.body.data.tipo } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Tipo_Ingreso";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 
 app.use('/',router);
