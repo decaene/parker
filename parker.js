@@ -3336,6 +3336,47 @@ router.post("/get_movimientos",function(req,res){
     });
 });
 
+router.post("/get_cierre",function(req,res){
+    var collection    =  datb.collection('Cierre');
+    collection.aggregate([
+		{ $match :  { "fecha_alta": req.body.data.fecha_alta , "usuario_alta" : ObjectId(req.body.data.usuario_id) } },
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Cierre";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
+router.post("/nuev_cierre",function(req,res){
+    var collection					 =  datb.collection('Cierre');
+	req.body.cierre.usuario_alta =  ObjectId(req.body.cierre.usuario_alta);
+    collection.insert(req.body.cierre, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            var result_data 	= {};
+			result_data.status 		= "success";
+			result_data.message 	= "Cierre realizado :)";
+			res.send(result_data);
+        }
+    });
+});
+
 router.post("/get_tipo_egresos",function(req,res){
     var collection    =  datb.collection('Tipo_Egreso');
     collection.aggregate([
