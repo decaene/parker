@@ -3266,6 +3266,14 @@ router.post("/nueva_configuracion",function(req,res){
 router.post("/nuev_movimiento",function(req,res){
     var collection					 =  datb.collection('Movimiento');
 	req.body.movimiento.usuario_alta =  ObjectId(req.body.movimiento.usuario_alta);
+	if(req.body.movimiento.almacen._id != undefined){
+		req.body.movimiento.almacen_id =  ObjectId(req.body.movimiento.almacen._id);
+	}
+	if(req.body.movimiento.repartidor._id != undefined){
+		req.body.movimiento.repartidor_id =  ObjectId(req.body.movimiento.repartidor._id);
+	}
+	delete req.body.movimiento.repartidor;
+	delete req.body.movimiento.almacen;
     collection.insert(req.body.movimiento, function(err, result) {
         if(err){
             var res_err      = {};
@@ -3308,7 +3316,9 @@ router.post("/eliminar_movimiento",function(req,res){
 router.post("/get_movimientos",function(req,res){
     var collection    =  datb.collection('Movimiento');
     collection.aggregate([
-		{ $match :  { "fecha_alta": req.body.data.fecha_alta , "usuario_alta" : ObjectId(req.body.data.usuario_id) } }
+		{ $match :  { "fecha_alta": req.body.data.fecha_alta , "usuario_alta" : ObjectId(req.body.data.usuario_id) } },
+		{ $lookup: { from: "Almacen", localField: "_id", foreignField: "empresa_id", as: "usuarios" } },
+		{ $lookup: { from: "Usuario", localField: "_id", foreignField: "empresa_id", as: "usuarios" } },
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
