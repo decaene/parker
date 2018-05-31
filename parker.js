@@ -3263,5 +3263,68 @@ router.post("/nueva_configuracion",function(req,res){
     });
 });
 
+router.post("/nuev_movimiento",function(req,res){
+    var collection					 =  datb.collection('Movimiento');
+	req.body.movimiento.usuario_alta =  ObjectId(req.body.movimiento.usuario_alta);
+    collection.insert(req.body.movimiento, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            var result_data 	= {};
+			result_data.status 		= "success";
+			result_data.message 	= "Nuevo movimiento creado :)";
+			res.send(result_data);
+        }
+    });
+});
+
+router.post("/eliminar_movimiento",function(req,res){
+    var collection	=  datb.collection('Movimiento');
+    var mov_id	=  ObjectId(req.body.movimiento._id);
+    collection.deleteOne(
+        { '_id' : mov_id },
+        function(err, result){  
+            if(err){
+                var res_err      = {};
+                res_err.status   = "error";
+                res_err.error    = err;
+                res_err.message  = err;
+                res.send(res_err);
+            }
+            else{
+                var res_data    = {};
+                res_data.status  = "success";
+                res_data.message = "Movimiento eliminado :)";
+                res.send(res_data);
+            }
+    });
+});
+
+router.post("/get_movimientos",function(req,res){
+    var collection    =  datb.collection('Movimiento');
+    collection.aggregate([
+		{ $match :  { "fecha_alta": req.body.data.fecha_alta } }
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Movimientos";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 
 app.use('/',router);
