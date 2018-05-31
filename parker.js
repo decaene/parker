@@ -3308,7 +3308,7 @@ router.post("/eliminar_movimiento",function(req,res){
 router.post("/get_movimientos",function(req,res){
     var collection    =  datb.collection('Movimiento');
     collection.aggregate([
-		{ $match :  { "fecha_alta": req.body.data.fecha_alta } }
+		{ $match :  { "fecha_alta": req.body.data.fecha_alta , "usuario_alta" : ObjectId(req.body.data.usuario_id) } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
