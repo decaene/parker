@@ -3336,6 +3336,29 @@ router.post("/get_movimientos",function(req,res){
     });
 });
 
+router.post("/get_movimientos_admin",function(req,res){
+    var collection    =  datb.collection('Movimiento');
+    collection.aggregate([
+		{ $match :  { "fecha_alta": req.body.data.fecha_alta } },
+		{ $lookup: { from: "Almacen", localField: "almacen_id", foreignField: "_id", as: "almacen" } },
+		{ $lookup: { from: "Usuario", localField: "repartidor_id", foreignField: "_id", as: "repartidor" } },
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Movimientos";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_cierre",function(req,res){
     var collection    =  datb.collection('Cierre');
     collection.aggregate([
