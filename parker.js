@@ -3403,7 +3403,7 @@ router.post("/nuev_cierre",function(req,res){
 router.post("/get_tipo_egresos",function(req,res){
     var collection    =  datb.collection('Tipo_Egreso');
     collection.aggregate([
-		{ $match :  { "tipo": req.body.data.tipo } }
+		{ $match :  { "tipo": req.body.data.tipo, "status" : 1 } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -3424,7 +3424,7 @@ router.post("/get_tipo_egresos",function(req,res){
 router.post("/get_tipo_ingresos",function(req,res){
     var collection    =  datb.collection('Tipo_Ingreso');
     collection.aggregate([
-		{ $match :  { "tipo": req.body.data.tipo } }
+		{ $match :  { "tipo": req.body.data.tipo, "status" : 1 } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -3442,5 +3442,88 @@ router.post("/get_tipo_ingresos",function(req,res){
     });
 });
 
+router.post("/eliminar_ingreso",function(req,res){
+		var collection					=  datb.collection('Tipo_Ingreso');
+		collection.update(
+					{ '_id' : ObjectId(req.body.data._id) }, 
+					{ $set: { 	"status" : 2 } }, 
+					function(err, result2){  
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}
+			else{			
+				
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Ingreso eliminado.";
+				res.send(result_return);
+			}
+		});
+});
+
+router.post("/eliminar_egreso",function(req,res){
+		var collection					=  datb.collection('Tipo_Egreso');
+		collection.update(
+					{ '_id' : ObjectId(req.body.data._id) }, 
+					{ $set: { 	"status" : 2 } }, 
+					function(err, result2){  
+						if(err){
+							var res_err      = {};
+							res_err.status   = "error";
+							res_err.error    = err;
+							res_err.message  = err;
+							res.send(res_err);
+						}
+			else{			
+				
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Egreso eliminado.";
+				res.send(result_return);
+			}
+		});
+});
+
+router.post("/nuev_tipo_ingreso",function(req,res){
+    var collection					 =  datb.collection('Tipo_Ingreso');
+    collection.insert(req.body.data, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            var result_data 	= {};
+			result_data.status 		= "success";
+			result_data.message 	= "Ingreso registrado.";
+			res.send(result_data);
+        }
+    });
+});
+
+router.post("/nuev_tipo_egreso",function(req,res){
+    var collection					 =  datb.collection('Tipo_Egreso');
+    collection.insert(req.body.data, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            var result_data 	= {};
+			result_data.status 		= "success";
+			result_data.message 	= "Egreso registrado.";
+			res.send(result_data);
+        }
+    });
+});
 
 app.use('/',router);
