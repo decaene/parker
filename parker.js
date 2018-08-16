@@ -639,7 +639,7 @@ router.post("/get_venta_ultima_insertada_para_autocompletar",function(req,res){
 		{ $unwind: { path: "$servicio_cliente" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
-		{ $lookup: { from: "Empresa", localField: "empresa_id", foreignField: "_id", as: "empresa" } },
+		{ $lookup: { from: "Empresas_Despacho", localField: "empresa_id", foreignField: "_id", as: "empresa" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor_1" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_2_id", foreignField: "_id", as: "vendedor_2" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_3_id", foreignField: "_id", as: "vendedor_3" } },
