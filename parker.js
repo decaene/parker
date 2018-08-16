@@ -3114,6 +3114,40 @@ router.post("/nuevo_servicio",function(req,res){
     });
 });
 
+router.post("/nuevo_servicio_inmediato_cliente",function(req,res){
+    var collection					=  datb.collection('Servicio');
+    collection.insert(req.body.servicio, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+			var nuevo_servicio_cliente_t	= {};
+			nuevo_servicio_cliente_t.servicio_id = ObjectId(result.insertedIds[0]);
+			nuevo_servicio_cliente_t.cliente_id  = ObjectId(req.body.cliente._id);
+			nuevo_servicio_cliente_t.status = 1;
+			collection						=  datb.collection('Servicio_Cliente');	
+			collection.insert(nuevo_servicio_cliente_t, function(err, result) {
+				if(err){
+					var res_err      = {};
+					res_err.status   = "error";
+					res_err.error    = err;
+					res_err.message  = err;
+					res.send(res_err);
+				}
+				else{
+					result.status  = "success";
+					result.message = "Servicio agregado al cliente :)";
+					res.send(result);
+				}
+			});
+        }
+    });
+});
+
 router.post("/nuevo_servicio_cliente",function(req,res){
     var collection					=  datb.collection('Servicio_Cliente');
 	req.body.servicio.cliente_id 	=  ObjectId(req.body.servicio.cliente_id);
