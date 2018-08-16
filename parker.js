@@ -187,7 +187,7 @@ function enviar_correo(correo, usuario, mensaje, solicitud){
         secure: false, // true for 465, false for other ports
         auth: {
             user: 'alanbarreraff@gmail.com', // generated ethereal user
-            pass: 'pablo09!!'  // generated ethereal password
+            pass: 'Pablo09!'  // generated ethereal password
         }
     });	
 	readHTMLFile('plantillas_correo/correo_base.html', function(err, html) {
@@ -199,7 +199,7 @@ function enviar_correo(correo, usuario, mensaje, solicitud){
 		};
 		var htmlToSend = template(replacements);
 		var mailOptions = {
-			from: 'alanbarreraff@gmail.com', // sender address
+			from: 'servicio@parkerapp.com', // sender address
 			to: 'alanbarreraf@hotmail.com,'+correo, // list of receivers
 			subject: 'Parker - Notificación', // Subject line
 			text: 'Parker - Notificación', // Subject line
@@ -1781,7 +1781,7 @@ router.post("/recuperar_contrasena",function(req,res){
 					secure: false, // true for 465, false for other ports
 					auth: {
 						user: 'alanbarreraff@gmail.com', // generated ethereal user
-						pass: 'pablo09!!'  // generated ethereal password
+						pass: 'Pablo09!'  // generated ethereal password
 					}
 				});
 				let mailOptions = {
@@ -3297,7 +3297,7 @@ router.post("/nueva_venta",function(req,res){
 	var correo_cliente 	= req.body.venta.cliente.email;
 	var usuario 		= req.body.venta.cliente.nombre + " " + req.body.venta.cliente.apellido;
 	var mensaje 		= "Nuevo folio registrado";
-	var solicitud 		= "Captura la información de pago para este folio y continuar con el proceso.";
+	var solicitud 		= "Estamos en proceso de captura de pago para este folio y continuar con el proceso.";
 	
 	var correo_vendedor	= req.body.venta.vendedor_1.email;
 	var usuario_v		= req.body.venta.vendedor_1.nombre + " " + req.body.venta.vendedor_1.apellido;
