@@ -3325,7 +3325,7 @@ router.post("/nueva_venta",function(req,res){
         }
         else{
 			
-			enviar_correo(correo_cliente, usuario, mensaje, solicitud);
+			// enviar_correo(correo_cliente, usuario, mensaje, solicitud);
 			enviar_correo(correo_vendedor, usuario_v, mensaje_v, solicitud_v);
 			
 			if(req.body.venta.vendedor_2 != undefined){
