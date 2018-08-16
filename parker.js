@@ -355,7 +355,7 @@ router.post("/get_empresas",function(req,res){
 router.post("/get_ventas_vendedor",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
-		{ $match:  { "vendedor_id" : ObjectId(req.body.usuario._id) } },
+		{ $match : { $or : [ { "vendedor_1_id" : ObjectId(req.body.usuario._id) }, { "vendedor_2_id" : ObjectId(req.body.usuario._id) }, { "vendedor_3_id" : ObjectId(req.body.usuario._id) } ] } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio_Cliente", localField: "servicio_id", foreignField: "_id", as: "servicio_cliente" } },
