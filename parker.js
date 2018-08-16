@@ -2567,7 +2567,7 @@ router.post("/actualizar_venta_comprobante_despacho",function(req,res){
 		var venta_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : venta_id }, 
-		{ $set: { 	"tipo_venta_id" 		: ObjectId("5ab2e34a8fd9b9c63485baa0"),
+		{ $set: { 	"tipo_venta_id" 		: ObjectId("5ab2f717094b06e86c1c1b33"),
 					"fecha_recojo" 			: req.body.venta.fecha_recojo,
 					"estatus_facturas"		: req.body.venta.estatus_facturas, 
 					// 1 - Capturadas completas , 2 - Faltan por subir
