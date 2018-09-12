@@ -231,7 +231,8 @@ function enviar_correo_despacho(correo, venta){
 			 empresa_p : venta.empresa.descripcion,
 			 comision_p : venta.comision_despacho,
 			 monto_retorno_p : venta.monto_sin_despacho,
-			 tipo_pago_p : venta.tipo_pago.descripcion
+			 tipo_pago_p : venta.tipo_pago.descripcion,
+			 documento_descarga_p : venta.excel_despacho_guardar
 		};
 		var htmlToSend = template(replacements);
 		var mailOptions = {
