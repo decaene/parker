@@ -224,7 +224,7 @@ function enviar_correo_despacho(correo, venta){
             pass: 'Pablo09!'  // generated ethereal password
         }
     });	
-	readHTMLFile('plantillas_correo/correo_base.html', function(err, html) {
+	readHTMLFile('plantillas_correo/doc_despacho.html', function(err, html) {
 		var template = handlebars.compile(html);
 		var replacements = {
 			 deposito_p : venta.monto_total_facturacion,
