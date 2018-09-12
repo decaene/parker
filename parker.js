@@ -2733,11 +2733,11 @@ router.post("/actualizar_venta_comprobante_repartidor_en_transito",function(req,
 });
 
 router.post("/actualizar_facturas_despacho",function(req,res){
-		var collection					=  datb.collection('Factura');
-		var factura_id	                =  ObjectId(req.body.factura._id);
+		var collection					=  datb.collection('Venta');
+		var factura_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : factura_id }, 
-		{ $set: { 	"pagos"	: req.body.factura.pagos 
+		{ $set: { 	"facturas"	: req.body.venta.facturas , "estatus_facturas" : req.body.venta.estatus_facturas , "fecha_facturas_despacho" : req.body.venta.fecha_facturas_despacho
 		} }, 
 		function(err, result2){  
 			if(err){
@@ -2746,40 +2746,21 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 				res_err.error    = err;
 				res_err.message  = err;
 				res.send(res_err);
-			}else{			
-				collection						=  datb.collection('Venta');
-				var venta_id	                =  ObjectId(req.body.factura.venta_id);
-				collection.update(
-				{ '_id' : venta_id }, 
-				{ $set: {  "estatus_facturas" : req.body.factura.estatus_facturas
-				} }, 
-				function(err, result2){  
-					if(err){
-						var res_err      = {};
-						res_err.status   = "error";
-						res_err.error    = err;
-						res_err.message  = err;
-						res.send(res_err);
-					}else{			
-					
-						var notificacion = {};
-						notificacion.fecha_alta = req.body.venta.fecha_facturas_despacho;
-						notificacion.recibe 	= ObjectId("5aa78d5edfe05cac9a071a57");
-						notificacion.venta_id	= venta_id;
-						notificacion.mensaje	= "Facturas capturadas en esta venta.";
-						notificacion.status		= 1;
-						nueva_notificacion(notificacion);
-						enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57", "Alerta" , "Facturas capturadas en esta venta.");
-						notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
-						nueva_notificacion(notificacion);
-						enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4", "Alerta" , "Facturas capturadas en esta venta.");
-						
-						var result_return      = {};
-						result_return.status   = "success";
-						result_return.message  = "Facturas actualizadas, gracias :)";
-						res.send(result_return);	
-					}
-				});
+			}else{		
+
+				var notificacion = {};
+				notificacion.fecha_alta = req.body.venta.fecha_facturas_despacho;
+				notificacion.recibe 	= ObjectId("5aa78d5edfe05cac9a071a57");
+				notificacion.venta_id	= venta_id;
+				notificacion.mensaje	= "Facturas capturadas en esta venta.";
+				notificacion.status		= 1;
+				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57", "Alerta" , "Facturas capturadas en esta venta.");
+				notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
+				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4", "Alerta" , "Facturas capturadas en esta venta.");
+				
+				
 			}
 		});
 });
