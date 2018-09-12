@@ -2462,8 +2462,9 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 						}
 					});				
 				}else{		
-					var usuario	= req.body.venta.despacho_usuario.nombre + " " + req.body.venta.despacho_usuario.apellido;
-					enviar_correo(req.body.venta.despacho_usuario.email, usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+					// var usuario	= req.body.venta.despacho_usuario.nombre + " " + req.body.venta.despacho_usuario.apellido;
+					// enviar_correo(req.body.venta.despacho_usuario.email, usuario, "El depósito se ha realizado", "Favor de capturar los datos de facturación");
+					enviar_correo_despacho(req.body.venta.despacho.correo , req.body.venta);
 					
 					var notificacion = {};
 					notificacion.fecha_alta = req.body.venta.fecha_cliente;
