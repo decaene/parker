@@ -213,6 +213,42 @@ function enviar_correo(correo, usuario, mensaje, solicitud){
 	});
 }
 
+function enviar_correo_despacho(correo, venta){
+	
+	let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: 'alanbarreraff@gmail.com', // generated ethereal user
+            pass: 'Pablo09!'  // generated ethereal password
+        }
+    });	
+	readHTMLFile('plantillas_correo/correo_base.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var replacements = {
+			 deposito_p : venta.monto_total_facturacion,
+			 empresa_p : venta.empresa.descripcion,
+			 comision_p : venta.comision_despacho,
+			 monto_retorno_p : venta.monto_sin_despacho,
+			 tipo_pago_p : venta.tipo_pago.descripcion
+		};
+		var htmlToSend = template(replacements);
+		var mailOptions = {
+			from: 'servicio@parkerapp.com', // sender address
+			to: 'alanbarreraf@hotmail.com,'+correo, // list of receivers
+			subject: 'Parker - Notificación', // Subject line
+			text: 'Parker - Notificación', // Subject line
+			html: htmlToSend // html body
+		 };
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				return console.log(error);
+			}			
+		});
+	});
+}
+
 function nueva_notificacion(notificacion){
 	var collection						=  datb.collection('Notificacion');
 	notificacion.recibe 				=  ObjectId(notificacion.recibe);
@@ -2375,6 +2411,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		collection.update(
 		{ '_id' : venta_id }, 
 		{ $set: { 	"comprobante_cliente" : req.body.venta.nombre_comprobante,
+					"excel_despacho_guardar" : req.body.venta.excel_despacho_guardar,
 					"tipo_venta_id" : ObjectId("5aadb23fabbd8086e6c66bc8") } }, 
 		function(err, result2){  
 			if(err){
@@ -2415,6 +2452,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							notificacion.recibe 	= ObjectId(req.body.venta.despacho_usuario._id);
 							nueva_notificacion(notificacion);
 							enviarNotificacion_Usuario(req.body.venta.despacho_usuario._id, "Alerta" , "Cliente subió comprobante");
+							enviar_correo_despacho(req.body.venta.despacho.correo , req.body.venta);
 							
 							var result_return      = {};
 							result_return.status   = "success";
