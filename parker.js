@@ -2208,6 +2208,7 @@ router.post("/actualizar_despacho",function(req,res){
 					{ '_id' : despacho_id }, 
 					{ $set: { 	"codigo" : req.body.despacho.codigo,
 								"nombre" : req.body.despacho.nombre,
+								"correo" : req.body.despacho.correo,
 								"ciudad_id" : req.body.despacho.ciudad_id } }, 
 					function(err, result2){  
 						if(err){
