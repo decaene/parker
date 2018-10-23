@@ -1648,7 +1648,7 @@ router.post("/nuevo_usuario_empresa",function(req,res){
                 });
             }else{
                 var res_err      = {};
-                res_err.status   = "success";
+                res_err.status   = "info";
                 res_err.message  = "Este correo electrónico ya fue registrado anteriormente.";
                 res.send(res_err);
             }
@@ -1786,7 +1786,7 @@ router.post("/actualizar_usuario",function(req,res){
 				});
             }else{
                 var res_err      = {};
-                res_err.status   = "success";
+                res_err.status   = "info";
                 res_err.message  = "Este correo electrónico ya fue registrado anteriormente.";
                 res.send(res_err);
             }
