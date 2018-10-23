@@ -3057,7 +3057,7 @@ router.post("/eliminar_despacho",function(req,res){
             }
     });
 });
-
+ 
 router.post("/replace_foto",function(req,res){
 	var collection	=  datb.collection('Empresa');
 	collection.find().toArray((err, docs) => {
