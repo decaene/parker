@@ -20,6 +20,7 @@ var smtpTransport 	= 	require('nodemailer-smtp-transport');
 var handlebars 	  	= 	require('handlebars');
 var fs 				= 	require('fs');
 var multer 			= 	require('multer');
+var http 			= 	require('http');
 var socket			=   require('socket.io')(http, { path: '/parker/socket.io'});
 
 const FCM = require('fcm-node');
