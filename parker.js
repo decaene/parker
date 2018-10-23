@@ -20,6 +20,7 @@ var smtpTransport 	= 	require('nodemailer-smtp-transport');
 var handlebars 	  	= 	require('handlebars');
 var fs 				= 	require('fs');
 var multer 			= 	require('multer');
+var socket			=   require('socket.io')(http, { path: '/parker/socket.io'});
 
 const FCM = require('fcm-node');
 // Replace these with your own values.
@@ -39,7 +40,7 @@ var server = app.listen(3017, () => {
   console.log('Parker en *:3017');
 });
 
-var io = require('socket.io')(server);
+var io = socket.listen(server);
 
 // Database Mongo Connection //
 
@@ -81,6 +82,7 @@ app.use(function (req, res, next) {
 // IO SOCKETS
 
 // Set socket.io listeners.
+io.of('/parker/');
 io.on('connection', (socket) => {
   	console.log('Usuario esta viendo ParkerAPP');
 
