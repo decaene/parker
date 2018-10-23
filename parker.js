@@ -3060,13 +3060,15 @@ router.post("/eliminar_despacho",function(req,res){
 });
  
 router.post("/replace_foto",function(req,res){
-	var collection	=  datb.collection('Empresa');
-	collection.find().toArray((err, docs) => {
-	  docs.forEach(doc => {
-		let URL = doc.foto.replace('http://165.227.30.166:3017/', 'https://codigeek.app/parker/');
-		collection.updateOne({_id: doc._id}, { foto : URL });
-	  });
-	});
+	var collection	=  datb.collection('Usuario');
+	collection.aggregate([
+		{ $match :  { "foto" : { $exists: true } } }
+    ]).toArray(function(err, result){  
+          result.forEach(doc => {
+			let URL = doc.foto.replace('http://165.227.30.166:3017/', 'https://codigeek.app/parker/');
+			collection.updateOne({_id: doc._id}, { foto : URL });
+		  });
+    });
 });
 
 router.post("/nueva_empresa",function(req,res){
