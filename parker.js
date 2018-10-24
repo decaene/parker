@@ -2397,6 +2397,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		collection.update(
 		{ '_id' : venta_id }, 
 		{ $set: { 	"comprobante_cliente" : req.body.venta.nombre_comprobante,
+					"s_cliente_capturado" : true,
 					"excel_despacho_guardar" : req.body.venta.excel_despacho_guardar,
 					"tipo_venta_id" : ObjectId("5aadb23fabbd8086e6c66bc8") } }, 
 		function(err, result2){  
@@ -2486,6 +2487,7 @@ router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
 					"monto_repartidor_entrega_cliente" : req.body.venta.monto_repartidor_entrega_cliente,
 					"repartidor_entrega_almacen" : req.body.venta.repartidor_entrega_almacen,
 					"monto_repartidor_entrega_almacen" : req.body.venta.monto_repartidor_entrega_almacen,
+					"s_repartidor_capturado" : true,
 					"tipo_venta_id" : ObjectId("5abe9a006484321304856cac") } }, 
 		function(err, result2){  
 			if(err){
@@ -2722,7 +2724,11 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 		var factura_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : factura_id }, 
-		{ $set: { 	"facturas"	: req.body.venta.facturas , "estatus_facturas" : req.body.venta.estatus_facturas , "fecha_facturas_despacho" : req.body.venta.fecha_facturas_despacho
+		{ $set: { 	"facturas"	: req.body.venta.facturas , 
+					"estatus_facturas" : req.body.venta.estatus_facturas , 
+					"fecha_facturas_despacho" : req.body.venta.fecha_facturas_despacho,
+					"fecha_facturas_despacho_f" : req.body.venta.fecha_facturas_despacho_f,
+					"s_despacho_capturado" : true
 		} }, 
 		function(err, result2){  
 			if(err){
