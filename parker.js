@@ -714,8 +714,6 @@ router.post("/get_ventas_group",function(req,res){
     collection.aggregate([
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
-		{ $lookup: { from: "Servicio_Cliente", localField: "servicio_id", foreignField: "_id", as: "servicio_cliente" } },
-		{ $unwind: { path: "$servicio_cliente" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
 		{ $lookup: { from: "Estatus_Venta", localField: "tipo_venta_id", foreignField: "_id", as: "estatus_venta" } },
 		{ $lookup: { from: "Usuario", localField: "vendedor_1_id", foreignField: "_id", as: "vendedor_1" } },
