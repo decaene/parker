@@ -373,6 +373,7 @@ router.post("/push_test",function(req,res){
 router.post("/get_empresas",function(req,res){
     var collection    =  datb.collection('Empresa');
     collection.aggregate([
+		{ $match:  { "status" : 1 } },
 		{ $lookup: { from: "Usuario", localField: "_id", foreignField: "empresa_id", as: "usuarios" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } }
     ]).toArray(function(err, result){  
@@ -815,6 +816,7 @@ router.post("/get_notificaciones",function(req,res){
 router.post("/get_usuarios",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
+		{ $match:  { "status" : 1 } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -835,6 +837,7 @@ router.post("/get_usuarios",function(req,res){
 router.post("/get_servicios",function(req,res){
     var collection    =  datb.collection('Servicio');
     collection.aggregate([
+		{ $match:  { "status" : 1 } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -855,7 +858,7 @@ router.post("/get_servicios",function(req,res){
 router.post("/get_servicios_cliente",function(req,res){
     var collection    =  datb.collection('Servicio_Cliente');
     collection.aggregate([
-		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) } },
+		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) , "status" : 1 } },
 		{ $lookup: { from: "Servicio", localField: "servicio_id", foreignField: "_id", as: "servicio" } },
     ]).toArray(function(err, result){  
         if(err){
@@ -877,7 +880,7 @@ router.post("/get_servicios_cliente",function(req,res){
 router.post("/get_empresas_despacho",function(req,res){
     var collection    =  datb.collection('Empresas_Despacho');
     collection.aggregate([
-		{ $match:  { "despacho_id" : ObjectId(req.body.despacho._id) } }
+		{ $match:  { "despacho_id" : ObjectId(req.body.despacho._id) , "status" : 1 } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
@@ -960,7 +963,7 @@ router.post("/get_configuracion_carga",function(req,res){
 router.post("/get_usuarios_empresa",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "empresa_id" : ObjectId(req.body.empresa._id) } },
+		{ $match:  { "empresa_id" : ObjectId(req.body.empresa._id) , "status" : 1 } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
@@ -986,7 +989,7 @@ router.post("/get_usuarios_empresa",function(req,res){
 router.post("/get_usuarios_despacho",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "despacho_id" : ObjectId(req.body.despacho._id) } },
+		{ $match:  { "despacho_id" : ObjectId(req.body.despacho._id) , "status" : 1 } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
@@ -1012,7 +1015,7 @@ router.post("/get_usuarios_despacho",function(req,res){
 router.post("/get_usuarios_repartidores",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "tipo_empleado_id" : ObjectId("5aa8324e8b44e9f4307f199b") } },
+		{ $match:  { "tipo_empleado_id" : ObjectId("5aa8324e8b44e9f4307f199b") , "status" : 1 } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
     ]).toArray(function(err, result){  
@@ -1035,7 +1038,7 @@ router.post("/get_usuarios_repartidores",function(req,res){
 router.post("/get_usuarios_empleados",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "tipo_usuario_id" : ObjectId("5aa824b78b44e9f4307f1995") } },
+		{ $match:  { "tipo_usuario_id" : ObjectId("5aa824b78b44e9f4307f1995") , "status" : 1 } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
@@ -1059,7 +1062,7 @@ router.post("/get_usuarios_empleados",function(req,res){
 router.post("/get_usuarios_clientes",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "tipo_usuario_id" : ObjectId("5aa851a78b44e9f4307f19a0") } },
+		{ $match:  { "tipo_usuario_id" : ObjectId("5aa851a78b44e9f4307f19a0") , "status" : 1 } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
@@ -1085,7 +1088,7 @@ router.post("/get_usuarios_clientes",function(req,res){
 router.post("/get_usuarios_vendedores",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "tipo_usuario_id" : ObjectId("5aa824b78b44e9f4307f1995"), "tipo_empleado_id" : ObjectId("5aa832488b44e9f4307f199a") } },
+		{ $match:  { "tipo_usuario_id" : ObjectId("5aa824b78b44e9f4307f1995"), "tipo_empleado_id" : ObjectId("5aa832488b44e9f4307f199a") , "status" : 1 } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
@@ -1110,8 +1113,8 @@ router.post("/get_usuarios_vendedores",function(req,res){
 
 router.post("/get_usuarios_despacho_todos",function(req,res){
     var collection    =  datb.collection('Usuario');
-    collection.aggregate([
-		{ $match:  { "tipo_usuario_id" : ObjectId("5aa7ac37dfe05cac9a071a59") } },
+    collection.aggregate([ 
+		{ $match:  { "tipo_usuario_id" : ObjectId("5aa7ac37dfe05cac9a071a59") , "status" : 1 } },
 		{ $lookup: { from: "Despacho", localField: "despacho_id", foreignField: "_id", as: "despacho" } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
@@ -1138,7 +1141,7 @@ router.post("/get_usuarios_despacho_todos",function(req,res){
 router.post("/get_usuarios_almacen",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
-		{ $match:  { "almacen_id" : ObjectId(req.body.almacen._id) } },
+		{ $match:  { "almacen_id" : ObjectId(req.body.almacen._id) , "status" : 1 } },
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Banco", localField: "banco_id", foreignField: "_id", as: "banco" } },
 		{ $lookup: { from: "Tipo_Empleado", localField: "tipo_empleado_id", foreignField: "_id", as: "tipo_empleado" } },
@@ -1206,6 +1209,7 @@ router.post("/get_vehiculos_empresa",function(req,res){
 router.post("/get_despachos",function(req,res){
     var collection    =  datb.collection('Despacho');
     collection.aggregate([
+		{ $match:  { "status" : 1 } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
 		{ $lookup: { from: "Empresas_Despacho", localField: "_id", foreignField: "despacho_id", as: "empresas" } }
     ]).toArray(function(err, result){  
@@ -1969,81 +1973,73 @@ router.post("/eliminar_usuario_de_almacen",function(req,res){
 router.post("/eliminar_servicio",function(req,res){
     var collection	=  datb.collection('Servicio');
     var servicio_id	=  ObjectId(req.body.servicio._id);
-    collection.deleteOne(
-        { '_id' : servicio_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-				collection 		 =  datb.collection("Servicio_Cliente");
-				collection.remove(
-					{ 'servicio_id' : servicio_id },
-					function(err, result){  
-						if(err){
-							var res_err 	 = {};
-							res_err.status   = "error";
-							res_err.error 	 = err;
-							res_err.message  = err;
-							res.send(res_err);
-						}
-						else{
-							var res_data    = {};
-							res_data.status  = "success";
-							res_data.message = "Servicio eliminado :)";
-							res.send(res_data);
-						}
-				});                
-            }
-    });
+	collection.update(
+		{ '_id' : servicio_id },
+		{ $set: { 	"status" : 2 } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+		else{			
+			
+			var result_return      = {};
+			result_return.status   = "success";
+			result_return.message  = "Servicio eliminado.";
+			res.send(result_return);
+		}
+	});
 });
 
 router.post("/eliminar_servicio_cliente",function(req,res){
     var collection	=  datb.collection('Servicio_Cliente');
     var servicio_id	=  ObjectId(req.body.servicio._id);
-    collection.deleteOne(
-        { '_id' : servicio_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Servicio eliminado :)";
-                res.send(res_data);
-            }
-    });
+	collection.update(
+		{ '_id' : servicio_id },
+		{ $set: { 	"status" : 2 } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+		else{			
+			
+			var result_return      = {};
+			result_return.status   = "success";
+			result_return.message  = "Servicio eliminado :)";
+			res.send(result_return);
+		}
+	});
 });
 
 router.post("/eliminar_empresa_despacho",function(req,res){
     var collection	=  datb.collection('Empresas_Despacho');
     var empresa_id	=  ObjectId(req.body.empresa._id);
-    collection.deleteOne(
-        { '_id' : empresa_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Empresa eliminada :)";
-                res.send(res_data);
-            }
-    });
+	collection.update(
+		{ '_id' : empresa_id },
+		{ $set: { 	"status" : 2 } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+		else{			
+			
+			var result_return      = {};
+			result_return.status   = "success";
+			result_return.message  = "Empresa eliminada :)";
+			res.send(result_return);
+		}
+	});
 });
 
 router.post("/actualizar_status_empresa",function(req,res){
@@ -2880,23 +2876,25 @@ router.post("/actualizar_ruta",function(req,res){
 router.post("/eliminar_empresa",function(req,res){
     var collection	=  datb.collection('Empresa');
     var empresa_id	=  ObjectId(req.body.empresa._id);
-    collection.deleteOne(
-        { '_id' : empresa_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Empresa eliminada :)";
-                res.send(res_data);
-            }
-    });
+	collection.update(
+		{ '_id' : empresa_id },
+		{ $set: { 	"status" : 2 } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+		else{			
+			
+			var result_return      = {};
+			result_return.status   = "success";
+			result_return.message  = "Despacho eliminado.";
+			res.send(result_return);
+		}
+	});
 });
 
 router.post("/eliminar_almacen",function(req,res){
@@ -2925,50 +2923,6 @@ router.post("/eliminar_almacen",function(req,res){
 	});
 });
 
-router.post("/eliminar_ruta",function(req,res){
-    var collection	=  datb.collection('Ruta');
-    var ruta_id	=  ObjectId(req.body.ruta._id);
-    collection.deleteOne(
-        { '_id' : ruta_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Ruta eliminada :)";
-                res.send(res_data);
-            }
-    });
-});
-
-router.post("/eliminar_vehiculo",function(req,res){
-    var collection	=  datb.collection('Vehiculo');
-    var vehiculo_id	=  ObjectId(req.body.vehiculo._id);
-    collection.deleteOne(
-        { '_id' : vehiculo_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Vehículo eliminado :)";
-                res.send(res_data);
-            }
-    });
-});
-
 router.post("/eliminar_configuracion",function(req,res){
     var collection			=  datb.collection('Configuracion');
     var configuracion_id	=  ObjectId(req.body.configuracion._id);
@@ -2993,70 +2947,52 @@ router.post("/eliminar_configuracion",function(req,res){
 	});
 });
 
-router.post("/eliminar_tracker",function(req,res){
-    var collection	=  datb.collection('Tracker');
-    var tracker_id	=  ObjectId(req.body.tracker._id);
-    collection.deleteOne(
-        { '_id' : tracker_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Tracker eliminado :)";
-                res.send(res_data);
-            }
-    });
-});
-
 router.post("/eliminar_usuario",function(req,res){
     var collection	=  datb.collection('Usuario');
     var usuario_id	=  ObjectId(req.body.usuario._id);
-    collection.deleteOne(
-        { '_id' : usuario_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Usuario eliminado :)";
-                res.send(res_data);
-            }
-    });
+	collection.update(
+		{ '_id' : usuario_id },
+		{ $set: { 	"status" : 2 } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+		else{			
+			
+			var result_return      = {};
+			result_return.status   = "success";
+			result_return.message  = "Usuario eliminado :)";
+			res.send(result_return);
+		}
+	});
 });
 
 router.post("/eliminar_despacho",function(req,res){
     var collection	=  datb.collection('Despacho');
     var despacho_id	=  ObjectId(req.body.despacho._id);
-    collection.deleteOne(
-        { '_id' : despacho_id },
-        function(err, result){  
-            if(err){
-                var res_err      = {};
-                res_err.status   = "error";
-                res_err.error    = err;
-                res_err.message  = err;
-                res.send(res_err);
-            }
-            else{
-                var res_data    = {};
-                res_data.status  = "success";
-                res_data.message = "Despacho eliminado :)";
-                res.send(res_data);
-            }
-    });
+	collection.update(
+		{ '_id' : despacho_id },
+		{ $set: { 	"status" : 2 } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}
+		else{			
+			
+			var result_return      = {};
+			result_return.status   = "success";
+			result_return.message  = "Despacho eliminado.";
+			res.send(result_return);
+		}
+	});
 });
  
 router.post("/replace_foto",function(req,res){
