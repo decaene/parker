@@ -2753,7 +2753,10 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 				nueva_notificacion(notificacion);
 				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4", "Alerta" , "Facturas capturadas en esta venta.");
 				
-				
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Facturas actualizadas :)";
+				res.send(result_return);
 			}
 		});
 });
