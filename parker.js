@@ -2744,7 +2744,7 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 				var notificacion = {};
 				notificacion.fecha_alta = req.body.venta.fecha_facturas_despacho;
 				notificacion.recibe 	= ObjectId("5aa78d5edfe05cac9a071a57");
-				notificacion.venta_id	= venta_id;
+				notificacion.venta_id	= req.body.venta._id;
 				notificacion.mensaje	= "Facturas capturadas en esta venta.";
 				notificacion.status		= 1;
 				nueva_notificacion(notificacion);
