@@ -2778,7 +2778,14 @@ router.post("/actualizar_facturas_despacho",function(req,res){
 					"estatus_facturas" : req.body.venta.estatus_facturas , 
 					"fecha_facturas_despacho" : req.body.venta.fecha_facturas_despacho,
 					"fecha_facturas_despacho_f" : req.body.venta.fecha_facturas_despacho_f,
-					"s_despacho_capturado" : true
+					"s_despacho_capturado" : true,
+					"pago_en_efectivo" : req.body.venta.pago_en_efectivo,
+					"monto_en_efectivo" : req.body.venta.monto_en_efectivo,
+					"pago_en_transferencia" : req.body.venta.pago_en_transferencia,
+					"monto_en_transferencia" : req.body.venta.monto_en_transferencia,
+					"pago_en_cheque" : req.body.venta.pago_en_cheque,
+					"monto_en_cheque" : req.body.venta.monto_en_cheque,
+					"numero_de_cheque" : req.body.venta.numero_de_cheque
 		} }, 
 		function(err, result2){  
 			if(err){
