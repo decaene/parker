@@ -663,7 +663,7 @@ router.post("/get_ventas",function(req,res){
 router.post("/get_venta_ultima_insertada_para_autocompletar",function(req,res){
     var collection    =  datb.collection('Venta');
     collection.aggregate([
-		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) , "servicio_id" : ObjectId(req.body.servicio._id) } },
+		{ $match:  { "cliente_id" : ObjectId(req.body.cliente._id) , "servicio_id" : ObjectId(req.body.servicio._id) , "despacho_id" : ObjectId(req.body.despacho._id) } },
 		{ $lookup: { from: "Usuario", localField: "usuario_id", foreignField: "_id", as: "usuario_alta" } },
 		{ $lookup: { from: "Tipo_Pago", localField: "tipo_pago_id", foreignField: "_id", as: "tipo_pago" } },
 		{ $lookup: { from: "Servicio", localField: "servicio_cliente.servicio_id", foreignField: "_id", as: "servicio" } },
