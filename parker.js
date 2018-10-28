@@ -275,8 +275,8 @@ function nueva_notificacion(notificacion){
 router.post("/test_correo",function(req,res){
     let transporter = nodemailer.createTransport({
         host: 'in-v3.mailjet.com',
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        port: 465,
+        secure: true, // true for 465, false for other ports
         auth: {
             user: '1e88b34e18a211ccb0ce26e65e515f8c', // generated ethereal user
             pass: '8730dd8d84a25fe6c281e6998ff488bf'  // generated ethereal password
