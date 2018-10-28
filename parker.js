@@ -272,6 +272,38 @@ function nueva_notificacion(notificacion){
     });
 }
 
+router.post("/test_correo",function(req,res){
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: 'alanbarreraff@gmail.com', // generated ethereal user
+            pass: 'Pablo09!'  // generated ethereal password
+        }
+    });	
+	readHTMLFile('plantillas_correo/instagram.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var replacements = {
+			 
+		};
+		var htmlToSend = template(replacements);
+		var mailOptions = {
+			from: 'miprueba@testing.com', // sender address
+			to: 'alanbarreraf@hotmail.com', // list of receivers
+			subject: 'New login to Instagram from Chrome on Windows', // Subject line
+			text: 'New login to Instagram from Chrome on Windows', // Subject line
+			html: htmlToSend // html body
+		 };
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				return console.log(error);
+			}			
+		});
+	});
+});
+
+
 router.get("/",function(req,res){
     res.json({"error" : false,"message" : "Hello World11"});
 });
