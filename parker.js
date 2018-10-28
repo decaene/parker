@@ -289,7 +289,7 @@ router.post("/test_correo",function(req,res){
 		};
 		var htmlToSend = template(replacements);
 		var mailOptions = {
-			from: 'Fred Foo 👥 <foo@blurdybloop.com>', // sender address
+			from: 'foo@blurdybloop.com', // sender address
 			to: 'alanbarreraf@hotmail.com', // list of receivers
 			subject: 'New login to Instagram from Chrome on Windows', // Subject line
 			text: 'New login to Instagram from Chrome on Windows', // Subject line
