@@ -3570,7 +3570,7 @@ router.post("/get_cierre",function(req,res){
     });
 });
 
-router.post("/nuev_cierre",function(req,res){
+router.post("/nuev_cierre",function(req,res){ 
     var collection					 =  datb.collection('Cierre');
 	req.body.cierre.usuario_alta =  ObjectId(req.body.cierre.usuario_alta);
 	collection.find( 
