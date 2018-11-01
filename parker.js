@@ -3824,6 +3824,25 @@ router.post("/nuev_tipo_ingreso",function(req,res){
     });
 });
 
+router.post("/nuevo_reporte",function(req,res){
+    var collection					 =  datb.collection('Reporte');
+    collection.insert(req.body.reporte, function(err, result) {
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }
+        else{
+            var result_data 	= {};
+			result_data.status 		= "success";
+			result_data.message 	= "Reporte capturado.";
+			res.send(result_data);
+        }
+    });
+});
+
 router.post("/nuev_tipo_egreso",function(req,res){
     var collection					 =  datb.collection('Tipo_Egreso');
     collection.insert(req.body.data, function(err, result) {
