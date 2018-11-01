@@ -3573,7 +3573,9 @@ router.post("/get_cierre",function(req,res){
 router.post("/nuev_cierre",function(req,res){
     var collection					 =  datb.collection('Cierre');
 	req.body.cierre.usuario_alta =  ObjectId(req.body.cierre.usuario_alta);
-    collection.insert(req.body.cierre, function(err, result) {
+	collection.find( 
+		{ "fecha_alta" : req.body.cierre.fecha_alta , "usuario_alta" : req.body.cierre.usuario_alta } )
+	.toArray(function(err, result){  
         if(err){
             var res_err      = {};
             res_err.status   = "error";
@@ -3582,12 +3584,47 @@ router.post("/nuev_cierre",function(req,res){
             res.send(res_err);
         }
         else{
-            var result_data 	= {};
-			result_data.status 		= "success";
-			result_data.message 	= "Cierre realizado :)";
-			res.send(result_data);
+            if(result.length === 0){				
+				collection.update(
+					{ 'fecha_alta' : fecha_alta, 'usuario_alta' : req.body.cierre.usuario_alta }, 
+					{ $set: { 	
+								"monto_total" : req.body.cierre.monto_total
+							} 
+					}, 
+				function(err, result2){  
+					if(err){
+						var res_err      = {};
+						res_err.status   = "error";
+						res_err.error    = err;
+						res_err.message  = err;
+						res.send(res_err);
+					}
+					else{			
+						var result_return      = {};
+						result_return.status   = "success";
+						result_return.message  = "Cierre modificado, actualiza los cierres siguientes ya que pueden estar afectados por este cambio.";
+						res.send(result_return);
+					}
+				});
+            }else{
+                collection.insert(req.body.cierre, function(err, result) {
+					if(err){
+						var res_err      = {};
+						res_err.status   = "error";
+						res_err.error    = err;
+						res_err.message  = err;
+						res.send(res_err);
+					}
+					else{
+						var result_data 	= {};
+						result_data.status 		= "success";
+						result_data.message 	= "Cierre realizado, actualiza los cierres siguientes ya que pueden estar afectados por este cambio.";
+						res.send(result_data);
+					}
+				});
+            }
         }
-    });
+    });   
 });
 
 router.post("/get_tipo_egresos",function(req,res){
