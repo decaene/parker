@@ -3584,7 +3584,7 @@ router.post("/nuev_cierre",function(req,res){
             res.send(res_err);
         }
         else{
-            if(result.length === 0){				
+            if(result.length > 0){				
 				collection.update(
 					{ 'fecha_alta' : req.body.cierre.fecha_alta, 'usuario_alta' : req.body.cierre.usuario_alta }, 
 					{ $set: { 	
