@@ -1101,6 +1101,30 @@ router.post("/get_usuarios_repartidores",function(req,res){
     });
 });
 
+router.post("/get_usuarios_repartidores_feed",function(req,res){
+    var collection    =  datb.collection('Usuario');
+    collection.aggregate([
+		{ $match:  { "tipo_empleado_id" : ObjectId("5aa8324e8b44e9f4307f199b") , "status" : 1 } },
+		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
+		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
+		{ $lookup: { from: "Venta", localField: "_id", foreignField: "repartidor_id", as: "ventas" } },
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Usuarios";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/get_usuarios_empleados",function(req,res){
     var collection    =  datb.collection('Usuario');
     collection.aggregate([
