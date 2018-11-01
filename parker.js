@@ -1108,6 +1108,8 @@ router.post("/get_usuarios_repartidores_feed",function(req,res){
 		{ $lookup: { from: "Tipo_Usuario", localField: "tipo_usuario_id", foreignField: "_id", as: "tipo_usuario" } },
 		{ $lookup: { from: "Ciudad", localField: "ciudad_id", foreignField: "_id", as: "ciudad" } },
 		{ $lookup: { from: "Venta", localField: "_id", foreignField: "repartidor_id", as: "ventas" } },
+		{ $lookup: { from: "Movimiento", localField: "_id", foreignField: "usuario_alta", as: "movimientos" } },
+		{ $lookup: { from: "Cierre", localField: "_id", foreignField: "usuario_alta", as: "cierres" } }
     ]).toArray(function(err, result){  
         if(err){
             var res_err      = {};
