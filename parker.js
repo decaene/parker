@@ -3570,6 +3570,28 @@ router.post("/get_cierre",function(req,res){
     });
 });
 
+router.post("/get_cierre_repartidores",function(req,res){
+    var collection    =  datb.collection('Cierre');
+    collection.aggregate([
+		{ $match :  { "fecha_alta": req.body.data.fecha_alta } },
+		{ $lookup: { from: "Usuario", localField: "usuario_alta", foreignField: "_id", as: "usuario" } },
+    ]).toArray(function(err, result){  
+        if(err){
+            var res_err      = {};
+            res_err.status   = "error";
+            res_err.error    = err;
+            res_err.message  = err;
+            res.send(res_err);
+        }else{
+            var res_data      = {};
+            res_data.status   = "success";
+            res_data.message  = "Cierres";
+            res_data.data     = result;
+            res.send(res_data);
+        }
+    });
+});
+
 router.post("/nuev_cierre",function(req,res){ 
     var collection					 =  datb.collection('Cierre');
 	req.body.cierre.usuario_alta =  ObjectId(req.body.cierre.usuario_alta);
