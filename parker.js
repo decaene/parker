@@ -235,7 +235,8 @@ function enviar_correo_despacho(correo, venta){
 			 comision_p : venta.comision_despacho,
 			 monto_retorno_p : venta.monto_sin_despacho,
 			 tipo_pago_p : venta.tipo_pago.descripcion,
-			 documento_descarga_p : venta.excel_despacho_guardar
+			 documento_descarga_p : venta.excel_despacho_guardar,
+			 cliente : venta.cliente.razon_social
 		};
 		var htmlToSend = template(replacements);
 		var mailOptions = {
@@ -2547,7 +2548,11 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							enviarNotificacion_Usuario(req.body.venta.despacho_usuario._id, "Alerta" , "Cliente subió comprobante");
 							enviar_correo_despacho(req.body.venta.despacho.correo , req.body.venta);
 							enviar_correo(req.body.venta.repartidor.email, req.body.venta.repartidor.nombre, "Folio completado", "El repartidor terminó el proceso.");
-							
+						
+							console.log("Correo a repartidor desde captura cliente");
+							console.log(req.body.venta.repartidor.email);
+							console.log(req.body.venta.repartidor.nombre);
+						
 							var result_return      = {};
 							result_return.status   = "success";
 							result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
