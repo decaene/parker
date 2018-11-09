@@ -2553,7 +2553,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							console.log(req.body.venta.repartidor.email);
 							console.log(req.body.venta.repartidor.nombre);
 						
-							var result_return      = {};
+							var result_return      = {}; 
 							result_return.status   = "success";
 							result_return.message  = "Comprobante capturado, te notificaremos del proceso :)";
 							res.send(result_return);
