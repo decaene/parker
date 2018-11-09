@@ -2550,7 +2550,7 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							enviar_correo(req.body.venta.repartidor.email, req.body.venta.repartidor.nombre, "Folio completado", "El repartidor terminó el proceso.");
 						
 							console.log("Correo a repartidor desde captura cliente"); 
-							console.log(req.body.venta.repartidor.email);
+							console.log(req.body.venta.repartidor.email); 
 							console.log(req.body.venta.repartidor.nombre);
 						
 							var result_return      = {}; 
