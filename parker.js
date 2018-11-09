@@ -2545,7 +2545,8 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 							notificacion.recibe 	= ObjectId(req.body.venta.despacho_usuario._id);
 							nueva_notificacion(notificacion);
 							enviarNotificacion_Usuario(req.body.venta.despacho_usuario._id, "Alerta" , "Cliente subió comprobante");
-							enviar_correo_despacho(req.body.venta.despacho.correo , req.body.venta);
+							enviar_correo_despacho(req.body.venta.despacho[0].correo , req.body.venta);
+							enviar_correo(req.body.venta.repartidor[0].email, req.body.venta.repartidor[0].nombre, "Folio completado", "El repartidor terminó el proceso.");
 							
 							var result_return      = {};
 							result_return.status   = "success";
