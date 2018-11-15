@@ -3393,6 +3393,8 @@ router.post("/nueva_venta",function(req,res){
 	var mensaje_v 		= "Nueva venta registrada";
 	var solicitud_v 	= "Envíamos un correo al cliente para la resolución del pago de este folio.";
 	
+	var repartidor_nv	= req.body.venta.repartidor;
+	
 	delete req.body.venta.vendedor_1;
 	delete req.body.venta.vendedor_2;
 	delete req.body.venta.vendedor_3;
@@ -3416,9 +3418,9 @@ router.post("/nueva_venta",function(req,res){
 			
 			// enviar_correo(correo_cliente, usuario, mensaje, solicitud);
 			enviar_correo(correo_vendedor, usuario_v, mensaje_v, solicitud_v);
-			enviar_correo(req.body.venta.repartidor.email, usuario_v, mensaje_v, "Se acaba de capturar una venta y fuiste asignado en el área de logística");
+			enviar_correo(repartidor_nv.email, usuario_v, mensaje_v, "Se acaba de capturar una venta y fuiste asignado en el área de logística");
 			
-			enviarNotificacion_Usuario(req.body.venta.repartidor._id, "Alerta" , "Nueva venta asignada");
+			enviarNotificacion_Usuario(repartidor_nv._id, "Alerta" , "Nueva venta asignada");
 			
 			if(req.body.venta.vendedor_2 != undefined){
 				correo_vendedor	= req.body.venta.vendedor_2.email;
