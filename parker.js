@@ -2588,13 +2588,12 @@ router.post("/actualizar_venta_comprobante_cliente",function(req,res){
 		});
 });
 
-router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
+router.post("/actualizar_venta_comprobante_repartidor_cliente",function(req,res){
 		var collection					=  datb.collection('Venta');
 		var venta_id	                =  ObjectId(req.body.venta._id);
 		collection.update(
 		{ '_id' : venta_id }, 
 		{ $set: { 	"comprobante_repartidor_cliente" : req.body.venta.comprobante_repartidor_cliente,
-					"comprobante_repartidor_despacho" : req.body.venta.comprobante_repartidor_despacho,
 					"repartidor_entrega_cliente" : req.body.venta.repartidor_entrega_cliente,
 					"monto_repartidor_entrega_cliente" : req.body.venta.monto_repartidor_entrega_cliente,
 					"repartidor_entrega_almacen" : req.body.venta.repartidor_entrega_almacen,
@@ -2612,19 +2611,64 @@ router.post("/actualizar_venta_comprobante_repartidor",function(req,res){
 				res.send(res_err);
 			}else{			
 				var usuario	= req.body.venta.despacho_usuario.nombre + " " + req.body.venta.despacho_usuario.apellido;
-				enviar_correo(req.body.venta.despacho_usuario.email, usuario, "Folio completado", "El repartidor terminó el proceso.");
+				enviar_correo(req.body.venta.despacho_usuario.email, usuario, "Folio completado", "Repartidor capturo comprobante cliente.");
 				
 				var notificacion = {};
 				notificacion.fecha_alta = req.body.venta.fecha_comprobante_repartidor;
 				notificacion.recibe 	= ObjectId("5aa78d5edfe05cac9a071a57");
 				notificacion.venta_id	= venta_id;
-				notificacion.mensaje	= "Repartidor terminó el proceso";
+				notificacion.mensaje	= "Repartidor capturo comprobante cliente";
 				notificacion.status		= 1;
 				nueva_notificacion(notificacion);
-				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57", "Alerta" , "Repartidor terminó el proceso");
+				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57", "Alerta" , "Repartidor capturo comprobante cliente");
 				notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
 				nueva_notificacion(notificacion);
-				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4", "Alerta" , "Repartidor terminó el proceso");
+				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4", "Alerta" , "Repartidor capturo comprobante cliente");
+				
+				var result_return      = {};
+				result_return.status   = "success";
+				result_return.message  = "Comprobante capturado, gracias :)";
+				res.send(result_return);			
+			}
+		});
+});
+
+router.post("/actualizar_venta_comprobante_repartidor_despacho",function(req,res){
+		var collection					=  datb.collection('Venta');
+		var venta_id	                =  ObjectId(req.body.venta._id);
+		collection.update(
+		{ '_id' : venta_id }, 
+		{ $set: { 	"comprobante_repartidor_despacho" : req.body.venta.comprobante_repartidor_despacho,
+					"repartidor_entrega_cliente_despacho" : req.body.venta.repartidor_entrega_cliente,
+					"monto_repartidor_entrega_cliente_despacho" : req.body.venta.monto_repartidor_entrega_cliente,
+					"repartidor_entrega_almacen_despacho" : req.body.venta.repartidor_entrega_almacen,
+					"monto_repartidor_entrega_almacen_despacho" : req.body.venta.monto_repartidor_entrega_almacen,
+					"fecha_comprobante_repartidor_despacho" : req.body.venta.fecha_comprobante_repartidor,
+					"fecha_comprobante_repartidor_f_despacho" : req.body.venta.fecha_comprobante_repartidor_f,
+					"s_repartidor_capturado_despacho" : true,
+					"tipo_venta_id" : ObjectId("5bedf88f8546ab66ad115be7") } }, 
+		function(err, result2){  
+			if(err){
+				var res_err      = {};
+				res_err.status   = "error";
+				res_err.error    = err;
+				res_err.message  = err;
+				res.send(res_err);
+			}else{			
+				var usuario	= req.body.venta.despacho_usuario.nombre + " " + req.body.venta.despacho_usuario.apellido;
+				enviar_correo(req.body.venta.despacho_usuario.email, usuario, "Folio completado", "Repartidor capturo comprobante despacho.");
+				
+				var notificacion = {};
+				notificacion.fecha_alta = req.body.venta.fecha_comprobante_repartidor;
+				notificacion.recibe 	= ObjectId("5aa78d5edfe05cac9a071a57");
+				notificacion.venta_id	= venta_id;
+				notificacion.mensaje	= "Repartidor capturo comprobante despacho";
+				notificacion.status		= 1;
+				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5aa78d5edfe05cac9a071a57", "Alerta" , "Repartidor capturo comprobante despacho");
+				notificacion.recibe 	= ObjectId("5ac0365ce7e6248ef1837df4");
+				nueva_notificacion(notificacion);
+				enviarNotificacion_Usuario("5ac0365ce7e6248ef1837df4", "Alerta" , "Repartidor capturo comprobante despacho");
 				
 				var result_return      = {};
 				result_return.status   = "success";
