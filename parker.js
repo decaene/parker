@@ -3416,6 +3416,9 @@ router.post("/nueva_venta",function(req,res){
 			
 			// enviar_correo(correo_cliente, usuario, mensaje, solicitud);
 			enviar_correo(correo_vendedor, usuario_v, mensaje_v, solicitud_v);
+			enviar_correo(req.body.venta.repartidor.email, usuario_v, mensaje_v, "Se acaba de capturar una venta y fuiste asignado en el área de logística");
+			
+			enviarNotificacion_Usuario(req.body.venta.repartidor._id, "Alerta" , "Nueva venta asignada");
 			
 			if(req.body.venta.vendedor_2 != undefined){
 				correo_vendedor	= req.body.venta.vendedor_2.email;
