@@ -2335,7 +2335,8 @@ router.post("/actualizar_despacho",function(req,res){
 		delete req.body.despacho.ciudad;
 		collection.update(
 					{ '_id' : despacho_id }, 
-					{ $set: { 	"codigo" : req.body.despacho.codigo,
+					{ $set: { 	"servicios" : req.body.despacho.servicios,
+								"codigo" : req.body.despacho.codigo,
 								"nombre" : req.body.despacho.nombre,
 								"correo" : req.body.despacho.correo,
 								"ciudad_id" : req.body.despacho.ciudad_id } }, 
