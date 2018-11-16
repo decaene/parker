@@ -235,6 +235,7 @@ function enviar_correo_despacho(correo, venta){
 			 comision_p : venta.comision_despacho,
 			 monto_retorno_p : venta.monto_sin_despacho,
 			 tipo_pago_p : venta.tipo_pago.descripcion,
+			 nombre_comprobante_p : venta.nombre_comprobante,
 			 documento_descarga_p : venta.excel_despacho_guardar,
 			 cliente : venta.cliente.razon_social
 		};
